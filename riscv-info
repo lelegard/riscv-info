@@ -1,0 +1,80 @@
+#!/usr/bin/env python
+#-----------------------------------------------------------------------------
+#
+#  RISCV-INFO - Collect information on RISC-V processor
+#  Copyright (c) 2025, Thierry Lelegard
+#  BSD-2-Clause license, see https://opensource.org/license/BSD-2-Clause
+#
+#-----------------------------------------------------------------------------
+
+import os, sys, re
+
+# The base architecture contains the following letters.
+# Note: 'G' is a shorthand for IMAFD extensions.
+RV_BASE_CODES = {
+    'A': 'Atomic instructions',
+    'B': 'Bit manipulation',
+    'C': 'Compressed instructions',
+    'D': 'Double-precision floating-point',
+    'F': 'Single-precision floating-point',
+    'H': 'Hypervisor extension',
+    'I': 'Integer instructions',
+    'J': 'Dynamically translated languages',
+    'L': 'Decimal floating-point',
+    'M': 'Integer multiplication and division',
+    'N': 'User-level interrupts',
+    'P': 'Packed-SIMD instructions',
+    'Q': 'Quad-precision floating-point',
+    'S': 'Supervisor mode',
+    'T': 'Transactional memory',
+    'V': 'Vector operations'
+}
+
+# Get the list of ISA extensions.
+# Return a triplet: bit-size (32, 64, 128), base-architecture, list-of-extensions.
+def rv_get_isa():
+     bits = 0
+     base = ''
+     exts = []
+     with open('/proc/cpuinfo', 'r') as input:
+          for line in input:
+               prefix, sep, value = line.partition(':')
+               if prefix.strip() in ['isa', 'hart isa']:
+                    for c in value.strip().upper().split('_'):
+                         # The base ISA is RV32xxx, RV64xxx, RV128xxx.
+                         match = re.match(r'RV([0-9]+)', c)
+                         if match is not None:
+                              # Found a base ISA
+                              if base == '':
+                                   base = c
+                                   bits = int(match.group(1))
+                              elif base != c:
+                                   print('ERROR: multiple base ISA: %s, %s' % (base, c))
+                         elif c not in exts:
+                              exts.append(c)
+     exts.sort()
+     return bits, base, exts
+
+# Display the RISC-V architecture.
+# Same parameters as returned by rv_get_isa().
+def rv_print_isa(bits, base, exts, file=sys.stdout):
+     print('', file=file)
+     print('Base architecture', file=file)
+     print('=================', file=file)
+     print('%s (%d bits)' % (base, bits), file=file)
+     # Note: 'G' is a shorthand for IMAFD extensions.
+     for f in re.sub(r'RV([0-9]+)', '', base).replace('G', 'IMAFD'):
+          print('  %s: %s' % (f, RV_BASE_CODES[f] if f in RV_BASE_CODES else '(unknown)'), file=file)
+     print('', file=file)
+     print('ISA extensions', file=file)
+     print('==============', file=file)
+     width = max(len(e) for e in [''] + exts)
+     print('Found %d extensions' % len(exts), file=file)
+     for e in exts:
+          print('  %-*s : %s' % (width, e, '(unknown)'), file=file)
+     print('', file=file)
+
+# Main code.
+if __name__ == '__main__':
+     bits, base, exts = rv_get_isa()
+     rv_print_isa(bits, base, exts)
