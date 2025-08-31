@@ -35,20 +35,40 @@ RV_BASE_CODES = {
 # It may be not complete, feel free to submit contributions to supplement it.
 # Please keep the list sorted.
 RV_EXTENSIONS = {
-    'SMCTR': 'Control Transfer Records, machine and supervisor modes',
-    'SMMPM': 'Machine-level pointer masking for M-mode',
-    'SMNPM': 'Machine-level pointer masking for next lower privilege',
-    'SSCTR': 'Control Transfer Records, supervisor mode only',
-    'SSNPM': 'Supervisor-level pointer masking for next lower privilege',
-    'SSPM':  'Indicates that there is pointer-masking support in supervisor mode',
-    'SUPM':  'Indicates that there is pointer-masking support in user mode',
-    'ZCLSD': 'Compressed Load/Store pair instructions',
-    'ZILSD': 'Load/Store pair instructions',
+    'Smctr': 'Control Transfer Records, machine and supervisor modes',
+    'Smmpm': 'Machine-level pointer masking for M-mode',
+    'Smnpm': 'Machine-level pointer masking for next lower privilege',
+    'Ssctr': 'Control Transfer Records, supervisor mode only',
+    'Ssnpm': 'Supervisor-level pointer masking for next lower privilege',
+    'Sspm':  'Indicates that there is pointer-masking support in supervisor mode',
+    'Supm':  'Indicates that there is pointer-masking support in user mode',
+    'Zclsd': 'Compressed Load/Store pair instructions',
+    'Zilsd': 'Load/Store pair instructions',
 }
+
+# A dictionary of known RISC-V profiles.
+RV_PROFILES = {}
+
+# Definition of a RISC-V profile.
+class RVProfile:
+    # Constructor. Register itself into RV_PROFILES/
+    def __init__(self, name, flags, exts, opt_flags, opt_exts):
+        self.name = name
+        self.flags = flags
+        self.exts = exts
+        self.opt_flags = opt_flags
+        self.opt_exts = opt_exts
+        m = re.fullmatch(r'.*[^0-9]([0-9]+)', name)
+        self.bits = int(m.group(1)) if m is not None else 0
+        RV_PROFILES[name] = self
+
+# Known RISC-V profiles.
+RVProfile('RVI20U32', 'I', [], 'MAFDC', ['Zifencei', 'Zicntr', 'Zihpm'])
+RVProfile('RVI20U64', 'I', [], 'MAFDC', ['Zifencei', 'Zicntr', 'Zihpm'])
 
 # Definition of the characteristics of a RISC-V processor.
 class RVProcessor:
-    # Default constructor.
+    # Constructor.
     def __init__(self):
         self.basename = ''     # Example: RV64GCVH
         self.bits = 0          # Example: 32, 64, 128
@@ -81,9 +101,11 @@ class RVProcessor:
             for line in input:
                 prefix, _, value = line.partition(':')
                 if prefix.strip().lower() in ['isa', 'hart isa']:
-                    for c in value.strip().upper().split('_'):
-                        if not self.set_basename(c) and c not in self.extensions:
-                            self.extensions.append(c)
+                    for c in value.strip().split('_'):
+                        if not self.set_basename(c):
+                            c = c.capitalize()
+                            if c not in self.extensions:
+                                self.extensions.append(c)
         self.extensions.sort()
 
     # Print a description of the processor.
