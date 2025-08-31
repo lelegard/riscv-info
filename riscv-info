@@ -16,6 +16,7 @@ RV_BASE_CODES = {
     'B': 'Bit manipulation',
     'C': 'Compressed instructions',
     'D': 'Double-precision floating-point',
+    'E': 'Integer instructions (embedded)',
     'F': 'Single-precision floating-point',
     'H': 'Hypervisor extension',
     'I': 'Integer instructions',
