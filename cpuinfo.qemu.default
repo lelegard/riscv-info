@@ -1,0 +1,64 @@
+processor	: 0
+hart		: 7
+isa		: rv64imafdch_zicbom_zicboz_zicntr_zicsr_zifencei_zihintpause_zihpm_zba_zbb_zbs_sstc
+mmu		: sv48
+mvendorid	: 0x0
+marchid		: 0x0
+mimpid		: 0x0
+
+processor	: 1
+hart		: 0
+isa		: rv64imafdch_zicbom_zicboz_zicntr_zicsr_zifencei_zihintpause_zihpm_zba_zbb_zbs_sstc
+mmu		: sv48
+mvendorid	: 0x0
+marchid		: 0x0
+mimpid		: 0x0
+
+processor	: 2
+hart		: 1
+isa		: rv64imafdch_zicbom_zicboz_zicntr_zicsr_zifencei_zihintpause_zihpm_zba_zbb_zbs_sstc
+mmu		: sv48
+mvendorid	: 0x0
+marchid		: 0x0
+mimpid		: 0x0
+
+processor	: 3
+hart		: 2
+isa		: rv64imafdch_zicbom_zicboz_zicntr_zicsr_zifencei_zihintpause_zihpm_zba_zbb_zbs_sstc
+mmu		: sv48
+mvendorid	: 0x0
+marchid		: 0x0
+mimpid		: 0x0
+
+processor	: 4
+hart		: 3
+isa		: rv64imafdch_zicbom_zicboz_zicntr_zicsr_zifencei_zihintpause_zihpm_zba_zbb_zbs_sstc
+mmu		: sv48
+mvendorid	: 0x0
+marchid		: 0x0
+mimpid		: 0x0
+
+processor	: 5
+hart		: 4
+isa		: rv64imafdch_zicbom_zicboz_zicntr_zicsr_zifencei_zihintpause_zihpm_zba_zbb_zbs_sstc
+mmu		: sv48
+mvendorid	: 0x0
+marchid		: 0x0
+mimpid		: 0x0
+
+processor	: 6
+hart		: 5
+isa		: rv64imafdch_zicbom_zicboz_zicntr_zicsr_zifencei_zihintpause_zihpm_zba_zbb_zbs_sstc
+mmu		: sv48
+mvendorid	: 0x0
+marchid		: 0x0
+mimpid		: 0x0
+
+processor	: 7
+hart		: 6
+isa		: rv64imafdch_zicbom_zicboz_zicntr_zicsr_zifencei_zihintpause_zihpm_zba_zbb_zbs_sstc
+mmu		: sv48
+mvendorid	: 0x0
+marchid		: 0x0
+mimpid		: 0x0
+

@@ -1,0 +1,67 @@
+#-----------------------------------------------------------------------------
+#
+#  RISCV-INFO - Collect information on RISC-V processor
+#  Copyright (c) 2025, Thierry Lelegard
+#  BSD-2-Clause license, see https://opensource.org/license/BSD-2-Clause
+#
+#-----------------------------------------------------------------------------
+
+# The base architecture contains the following letters.
+flags:
+  A: Atomic instructions
+  B: Bit manipulation
+  C: Compressed instructions
+  D: Double-precision floating-point
+  E: Integer instructions (embedded)
+  F: Single-precision floating-point
+  H: Hypervisor extension
+  I: Integer instructions
+  J: Dynamically translated languages
+  L: Decimal floating-point
+  M: Integer multiplication and division
+  N: User-level interrupts
+  P: Packed-SIMD instructions
+  Q: Quad-precision floating-point
+  S: Supervisor mode
+  T: Transactional memory
+  V: Vector operations
+
+# Shorthands for architecture flags.
+shorthands:
+  Q: IMAFD
+
+# Known RISC-V extensions.
+# Feel free to submit contributions to supplement it (keep the list sorted).
+extensions:
+  Smctr: Control Transfer Records, machine and supervisor modes
+  Smmpm: Machine-level pointer masking for M-mode
+  Smnpm: Machine-level pointer masking for next lower privilege
+  Ssctr: Control Transfer Records, supervisor mode only
+  Ssnpm: Supervisor-level pointer masking for next lower privilege
+  Sspm:  Indicates that there is pointer-masking support in supervisor mode
+  Supm:  Indicates that there is pointer-masking support in user mode
+  Zclsd: Compressed Load/Store pair instructions
+  Zilsd: Load/Store pair instructions
+
+# Known RISC-V profiles.
+profiles:
+
+  RVI20U32:
+    bits: 32
+    endian: little
+    flags:
+      mandatory: I
+      optional: MAFDC
+    extensions:
+      mandatory:
+      optional: [Zifencei, Zicntr, Zihpm]
+
+  RVI20U64:
+    bits: 64
+    endian: little
+    flags:
+      mandatory: I
+      optional: MAFDC
+    extensions:
+      mandatory:
+      optional: [Zifencei, Zicntr, Zihpm]
