@@ -39,7 +39,7 @@ Options:
 #-----------------------------------------------------------------------------
 
 class CommandLine:
- 
+
     # Constructor.
     def __init__(self, argv=sys.argv, usage=''):
         self.argv = argv
@@ -105,6 +105,14 @@ class CommandLine:
         exit(1)
 
 #-----------------------------------------------------------------------------
+# Force a default value to a dictionary key
+#-----------------------------------------------------------------------------
+
+def set_default(dictionary, key, default):
+    if key not in dictionary or dictionary[key] is None:
+        dictionary[key] = default
+
+#-----------------------------------------------------------------------------
 # Definition of RISC-V profiles and extensions.
 #-----------------------------------------------------------------------------
 
@@ -113,19 +121,31 @@ class Profiles:
     # Constructor, load configuration from a YAML file.
     def __init__(self, cmd, definition_file):
         self.cmd = cmd
+        # Load the YAML configuration file.
         with open(definition_file, 'r') as input:
             self.data = yaml.safe_load(input)
-        self.flags = self.data.get('flags', dict())
-        self.shorthands = self.data.get('shorthands', dict())
-        self.extensions = self.data.get('extensions', dict())
-        self.profiles = self.data.get('profiles', dict())
+        # Enforce default values.
+        set_default(self.data, 'flags', dict())
+        set_default(self.data, 'shorthands', dict())
+        set_default(self.data, 'extensions', dict())
+        set_default(self.data, 'profiles', dict())
+        for name in self.data['profiles'].keys():
+            set_default(self.data['profiles'], name, dict())
+            set_default(self.data['profiles'][name], 'bits', 0)
+            set_default(self.data['profiles'][name], 'endian', 'any')
+            set_default(self.data['profiles'][name], 'flags', dict())
+            set_default(self.data['profiles'][name]['flags'], 'mandatory', '')
+            set_default(self.data['profiles'][name]['flags'], 'optional', '')
+            set_default(self.data['profiles'][name], 'extensions', dict())
+            set_default(self.data['profiles'][name]['extensions'], 'mandatory', dict())
+            set_default(self.data['profiles'][name]['extensions'], 'optional', dict())
 
     # Cleanup a string of flags. Remove duplicates. Expand shorthands.
     def cleanup_flags(self, flags):
         input = flags.upper()
         clean = ''
-        for s in self.shorthands.keys():
-            input = input.replace(s, self.shorthands[s])
+        for s in self.data['shorthands'].keys():
+            input = input.replace(s, self.data['shorthands'][s])
         for f in input:
             if f not in clean:
                 clean += f
@@ -133,15 +153,15 @@ class Profiles:
 
     # Get the description of a flag.
     def flag_desc(self, flag):
-        return self.flags[flag] if flag in self.flags.keys() else 'Unknown'
+        return self.data['flags'][flag] if flag in self.data['flags'] else 'Unknown'
 
     # Get the description of an extension.
     def extension_desc(self, name):
-        return self.extensions[name] if name in self.extensions.keys() else 'Unknown'
+        return self.data['extensions'][name] if name in self.data['extensions'] else 'Unknown'
 
     # Get the list of profile names.
-    def profiles(self):
-        return list(self.profiles.keys())
+    def profile_names(self):
+        return list(self.data['profiles'].keys())
 
 #-----------------------------------------------------------------------------
 # Definition of the characteristics of a RISC-V processor.
@@ -182,6 +202,19 @@ class Processor:
                                 cmd.error('multiple base ISA: %s, %s' % (self.basename, c))
         self.extensions.sort()
 
+    # Check if the processor matches the mandatory specs of a profile.
+    def match_profile(self, profile_name):
+        pdata = self.profiles.data['profiles']
+        if profile_name not in pdata or pdata[profile_name]['bits'] != self.bits:
+            return False
+        for f in pdata[profile_name]['flags']['mandatory']:
+            if f not in self.flags:
+                return False
+        for e in pdata[profile_name]['extensions']['mandatory']:
+            if e not in self.extensions:
+                return False
+        return True
+
     # Print a description of the processor.
     def print(self, file=sys.stdout):
         print('', file=file)
@@ -198,6 +231,36 @@ class Processor:
         for e in self.extensions:
             print('  %-*s : %s' % (width, e, self.profiles.extension_desc(e)), file=file)
         print('', file=file)
+        print('ISA profiles', file=file)
+        print('============', file=file)
+        pnames = self.profiles.profile_names()
+        width = max(len(e) for e in [''] + pnames)
+        for pname in pnames:
+            supported = pname in self.profiles.data['profiles']
+            profile = None
+            missing_flags = ''
+            missing_exts = []
+            if supported:
+                profile = self.profiles.data['profiles'][pname]
+                supported = self.bits == profile['bits']
+            if supported:
+                for f in profile['flags']['mandatory']:
+                    if f not in self.flags:
+                        missing_flags += f
+                        supported = False
+                for e in profile['extensions']['mandatory']:
+                    if e not in self.extensions:
+                        missing_exts.append(e)
+                        supported = False
+            print('  %-*s : %s' % (width, pname, 'Yes' if supported else 'No'), file=file)
+            if len(missing_flags) > 0:
+                print('      Missing flags: %s' % missing_flags, file=file)
+            if len(missing_exts) > 0:
+                print('      Missing extensions:', file=file)
+                ewidth = max(len(e) for e in missing_exts)
+                for e in missing_exts:
+                    print('      %-*s : %s' % (ewidth, e, self.profiles.extension_desc(e)), file=file)
+        print('', file=file)
 
 # Main code.
 if __name__ == '__main__':
@@ -207,7 +270,7 @@ if __name__ == '__main__':
     definition_file = cmd.get_opt(['-d', '--definition'], os.path.splitext(__file__)[0] + '.yml')
     cpuinfo_file = cmd.get_opt(['-c', '--cpuinfo'], '/proc/cpuinfo')
     cmd.check_opt_final()
-    
+
     # Execute command.
     profiles = Profiles(cmd, definition_file)
     proc = Processor(profiles, cpuinfo_file)

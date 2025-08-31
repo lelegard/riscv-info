@@ -28,20 +28,114 @@ flags:
 
 # Shorthands for architecture flags.
 shorthands:
-  Q: IMAFD
+  # Q: IMAFD
 
 # Known RISC-V extensions.
 # Feel free to submit contributions to supplement it (keep the list sorted).
 extensions:
+  Sdtrig: Debug triggers
+  Sha: Augmented hypervisor extension
+  Shcounterenw: Support writeable enables for any supported counter
+  Shgatpa: SvNNx4 mode supported for all modes supported by satp, as well as Bare
+  Shtvala: htval provides all needed values
+  Shvsatpa: vsatp supports all modes supported by satp
+  Shvstvala: vstval provides all needed values
+  Shvstvecd: vstvec supports Direct mode
+  Sm1p11: Machine Architecture v1.11
+  Sm1p12: Machine Architecture v1.12
   Smctr: Control Transfer Records, machine and supervisor modes
   Smmpm: Machine-level pointer masking for M-mode
   Smnpm: Machine-level pointer masking for next lower privilege
+  Smstateen: Machine-mode view of the state-enable extension
+  Ss1p11: Supervisor Architecture v1.11
+  Ss1p12: Supervisor Architecture v1.12
+  Ss1p13: Supervisor Architecture v1.13
+  Ssccptr: Main memory supports page table reads
+  Sscofpmf: Count Overflow and Mode-Based Filtering
+  Sscounterenw: Support writeable enables for any supported counter
   Ssctr: Control Transfer Records, supervisor mode only
   Ssnpm: Supervisor-level pointer masking for next lower privilege
-  Sspm:  Indicates that there is pointer-masking support in supervisor mode
-  Supm:  Indicates that there is pointer-masking support in user mode
+  Sspm: Indicates that there is pointer-masking support in supervisor mode
+  Ssstateen: Supervisor-mode view of the state-enable extension
+  Ssstrict: Unimplemented reserved encodings raise illegal instruction exceptions
+  Sstc: Supervisor-mode timer interrupts
+  Sstvala: stval provides all needed values
+  Sstvecd: stvec supports Direct mode
+  Ssu64xl: UXLEN=64 must be supported
+  Supm: Indicates that there is pointer-masking support in user mode
+  Sv32: Page-Based 32-bit Virtual-Memory System
+  Sv39: Page-Based 39-bit Virtual-Memory System
+  Sv48: Page-Based 48-bit Virtual-Memory System
+  Sv57: Page-Based 57-bit Virtual-Memory System
+  Svade: Raise exceptions on improper A/D bits
+  Svadu: Hardware Updating of A/D Bits
+  Svbare: Bare mode virtual-memory translation supported
+  Svinval: Fine-Grained Address-Translation Cache Invalidation
+  Svnapot: NAPOT Translation Contiguity
+  Svpbmt: Page-Based Memory Types
+  Svvptc: Obviating Memory-management Instructions after Marking PTEs valid
+  Za128rs: Reservation set size of 128 bytes
+  Za64rs: Reservation set size of 64 bytes
+  Zabha: Extension for Byte and Halfword Atomic Memory Operations
+  Zacas: Extension for Atomic Compare-and-Swap (CAS) instructions
+  Zama16b: Atomic misaligned acces to main memory regions that do not cross aligned 16-byte boundary
+  Zawrs: Wait-on-reservation-set instructions
+  Zba: Address Computation
+  Zbkb: Extension for Bit Manipulation for Cryptography
+  Zbkc: Extension for Carryless Multiplication for Cryptography
+  Zbkx: Crossbar Permutation Extension
+  Zbb: Bit Manipulation
+  Zbc: Carryless Multiplication
+  Zbs: Single-Bit Manipulation
+  Zcb: Additional compressed instructions
   Zclsd: Compressed Load/Store pair instructions
+  Zcmop: Compressed may-be-operations
+  Zdinx: Double-Precision Floating-Point in x-registers
+  Zfa: Additional floating-Point instructions
+  Zfbfmin: Scalar BF16 converts
+  Zfh: Extension for Half-Precision Floating-Point
+  Zfhmin: Minimal Extension for Half-Precision Floating-Point
+  Zfinx: Extension for Single-Precision Floating-Point in x-registers
+  Zhinx: Extension for Half-Precision Floating-Point in x-registers
+  Zhinxmin: Minimal Extension for Half-Precision Floating-Point in x-registers
+  Zic64b: Cache block size is 64 bytes
+  Zicbom: Cache-Block Management
+  Zicbop: Cache-Block Prefetching
+  Zicboz: Cache-Block Zeroing
+  Ziccamoa: Main memory supports all atomics in A
+  Ziccamoc: Main memory supports atomics in Zacas
+  Ziccif: Main memory supports instruction fetch with atomicity requirement
+  Zicclsm: Main memory supports misaligned loads/stores
+  Ziccrse: Main memory supports forward progress on LR/SC sequences
+  Zicfilp: Landing Pads
+  Zicfiss: Shadow Stack
+  Zicond: Integer conditional operations
+  Zicntr: Basic performance counters
+  Zicsr: Control and Status Register instructions
+  Zifencei: Instruction-fetch fence instruction
+  Zihintntl: Non-temporal locality hints
+  Zihintpause: Pause Hint
+  Zihpm: Hardware performance counters
   Zilsd: Load/Store pair instructions
+  Zimop: may-be-operations
+  Zk: Standard Scalar Cryptography Extension
+  Zkn: NIST Cryptography Extension
+  Zknd: AES Decryption Extension
+  Zkne: AES Encryption Extension
+  Zknh: SHA2 Hashing Extension
+  Zkr: Entropy Source Extension
+  Zks: ShangMi Cryptography Extension
+  Zksed: SM4 Block Cypher Extension
+  Zksh: SM3 Hashing Extension
+  Zkt: Data-Independent Execution Latency
+  Zvbb: Vector Basic Bit-manipulation
+  Zvbc: Vector Carryless Multiplication
+  Zvfbfmin: Vector BF16 converts
+  Zvfbfwma: Vector BF16 widening mul-add
+  Zvfh: Vector half-precision floating-point
+  Zvkng: NIST Algorithm Suite with GCM
+  Zvksg: ShangMi Algorithm Suite with GCM
+  Zvkt: Vector Data-Independent Execution Latency
 
 # Known RISC-V profiles.
 profiles:
@@ -51,7 +145,7 @@ profiles:
     endian: little
     flags:
       mandatory: I
-      optional: MAFDC
+      optional:  MAFDC
     extensions:
       mandatory:
       optional: [Zifencei, Zicntr, Zihpm]
@@ -61,7 +155,76 @@ profiles:
     endian: little
     flags:
       mandatory: I
-      optional: MAFDC
+      optional:  MAFDC
     extensions:
       mandatory:
       optional: [Zifencei, Zicntr, Zihpm]
+
+  RVA20U64:
+    bits: 64
+    endian: little
+    flags:
+      mandatory: IMAFDC
+    extensions:
+      mandatory: [Zicsr, Zicntr, Ziccif, Ziccrse, Ziccamoa, Za128rs, Zicclsm]
+      optional: [Zihpm]
+
+  RVA20S64:
+    bits: 64
+    endian: little
+    flags:
+      mandatory: IMAFDC
+    extensions:
+      mandatory: [Zicsr, Zicntr, Ziccif, Ziccrse, Ziccamoa, Za128rs, Zicclsm,
+                  Zifencei, Ss1p11, Svbare, Svade, Ssccptr, Sstvecd, Sstvala]
+      optional:  [Zihpm, Sv48, Ssu64xl]
+
+  RVA22U64:
+    bits: 64
+    endian: little
+    flags:
+      mandatory: IMAFDC
+      optional:  V
+    extensions:
+      mandatory: [Zicsr, Zicntr, Zihpm, Ziccif, Ziccrse, Ziccamoa, Za64rs, Zicclsm,
+                  Zihintpause, Zba, Zbb, Zbs, Zic64b, Zicbom, Zicbop, Zicboz, Zfhmin, Zkt]
+      optional:  [Zfh, Zkn, Zks]
+
+  RVA22S64:
+    bits: 64
+    endian: little
+    flags:
+      mandatory: IMAFDC
+      optional:  VH
+    extensions:
+      mandatory: [Zicsr, Zicntr, Zihpm, Ziccif, Ziccrse, Ziccamoa, Za64rs, Zicclsm,
+                  Zihintpause, Zba, Zbb, Zbs, Zic64b, Zicbom, Zicbop, Zicboz, Zfhmin, Zkt,
+                  Zifencei, Ss1p12, Svbare, Sv39, Svade, Ssccptr, Sstvecd, Sstvala, Sscounterenw, Svpbmt, Svinval]
+      optional:  [Zfh, Zkn, Zks, Sv48, Sv57, Svnapot, Ssu64xl, Sstc, Sscofpmf, Zkr,
+                  Ssstateen, Shcounterenw, Shvstvala, Shtvala, Shvstvecd, Shvsatpa, Shgatpa]
+
+  RVA23U64:
+    bits: 64
+    endian: little
+    flags:
+      mandatory: IMAFDCBV
+    extensions:
+      mandatory: [Zicsr, Zicntr, Zihpm, Ziccif, Ziccrse, Ziccamoa, Za64rs, Zicclsm,
+                  Zihintpause, Zic64b, Zicbom, Zicbop, Zicboz, Zfhmin, Zfhmin,
+                  Zvfhmin, Zvbb, Zvkt, Zihintntl, Zicond, Zimop, Zcmop, Zcb, Zfa, Zawrs, Supm]
+      optional:  [Zvkng, Zvksg, Zabha, Zacas, Ziccamoc, Zvbc, Zama16b, Zfh, Zbc, Zicfilp, Zicfiss,
+                  Zvfh, Zfbfmin, Zvfbfmin, Zvfbfwma]
+
+  RVA23S64:
+    bits: 64
+    endian: little
+    flags:
+      mandatory: IMAFDCBV
+    extensions:
+      mandatory: [Zicsr, Zicntr, Zihpm, Ziccif, Ziccrse, Ziccamoa, Za64rs, Zicclsm,
+                  Zihintpause, Zic64b, Zicbom, Zicbop, Zicboz, Zfhmin, Zfhmin,
+                  Zvfhmin, Zvbb, Zvkt, Zihintntl, Zicond, Zimop, Zcmop, Zcb, Zfa, Zawrs, Supm,
+                  Zifencei, Ss1p13, Svbare, Sv39, Svade, Ssccptr, Sstvecd, Sstvala, Sscounterenw, Svpbmt, Svinval,
+                  Svnapot, Sstc, Sscofpmf, Ssnpm, Ssu64xl, Sha, Ssstateen, Shcounterenw, Shvstvala, Shtvala,
+                  Shvstvecd, Shvsatpa, Shgatpa]
+      optional:  [Sv48, Sv57, Zkr, Svadu, Sdtrig, Ssstrict, Svvptc, Sspm]
