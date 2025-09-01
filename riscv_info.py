@@ -7,7 +7,7 @@
 #
 #-----------------------------------------------------------------------------
 
-import os, sys, re, yaml
+import os, sys, re, glob, yaml
 
 USAGE = """
 Syntax: %s [options]
@@ -16,13 +16,21 @@ Options:
 
   -c filename
   --cpuinfo filename
-     Use the specified file instead of /proc/cpuinfo. Useful to test alternative
-     configurations.
+     Use the specified file for 'cpuinfo' pseudo file.
+     Useful to test alternative configurations.
+     Default: /proc/cpuinfo
 
   -d filename
   --definition filename
      Use the specified file instead of the default YAML definition file for
      RISC-V configurations which comes with that script.
+
+  -i pattern
+  --isa
+     Use the specified file pattern, with optional wildcards, for the
+     'riscv,isa-extensions' pseudo files.
+     Useful to test alternative configurations.
+     Default: /proc/device-tree/cpus/*/riscv,isa-extensions
 
   -h
   --help
@@ -30,9 +38,11 @@ Options:
 
   -v
   --verbose
-     Display this help text.
+     Verbose display.
 """
 
+DEFAULT_CPUINFO = '/proc/cpuinfo'
+DEFAULT_ISAGLOB = '/proc/device-tree/cpus/*/riscv,isa-extensions'
 
 #-----------------------------------------------------------------------------
 # Generic command line management.
@@ -170,13 +180,14 @@ class Profiles:
 class Processor:
 
     # Constructor, load from a cpuinfo file.
-    def __init__(self, profiles, cpuinfo_file='/proc/cpuinfo'):
+    def __init__(self, profiles, cpuinfo_file=DEFAULT_CPUINFO, isa_pattern=DEFAULT_ISAGLOB):
         self.basename = ''     # Example: RV64GCVH
         self.bits = 0          # Example: 32, 64, 128
         self.flags = ''        # Example: IMAFDCVH
         self.extensions = []   # List of extension names
         self.profiles = profiles
         self.cmd = profiles.cmd
+        # Parse /proc/cpuinfo
         with open(cpuinfo_file, 'r') as input:
             for line in input:
                 prefix, _, value = line.partition(':')
@@ -188,18 +199,34 @@ class Processor:
                         match = re.fullmatch(r'RV([0-9]+)(.*)', c)
                         if match is None:
                             # Not a base name, this is an extension name.
-                            c = c.capitalize()
-                            if c not in self.extensions:
-                                self.extensions.append(c)
+                            self.add_extension(c)
                         else:
                             # This is a base ISA name.
                             if self.basename == '':
                                 self.basename = c
                                 self.bits = int(match.group(1))
-                                self.flags = self.profiles.cleanup_flags(match.group(2))
+                                self.add_flags(match.group(2))
                             elif self.basename != c:
                                 cmd.error('multiple base ISA: %s, %s' % (self.basename, c))
+        # Parse /proc/device-tree/cpus/*/riscv,isa-extensions
+        for isa_file in glob.glob(isa_pattern):
+            with open(isa_file, 'r') as input:
+                for c in input.read().split('\0'):
+                    if len(c) == 1:
+                        self.add_flags(c)
+                    elif len(c) > 0:
+                        self.add_extension(c)
         self.extensions.sort()
+
+    # Add a string of flags to the processor capabilities.
+    def add_flags(self, new_flags):
+        self.flags = self.profiles.cleanup_flags(self.flags + new_flags)
+
+    # Add an extension to the processor.
+    def add_extension(self, new_ext):
+        new_ext = new_ext.capitalize()
+        if new_ext not in self.extensions:
+            self.extensions.append(new_ext)
 
     # Check if the processor matches the mandatory specs of a profile.
     def match_profile(self, profile_name):
@@ -267,10 +294,11 @@ if __name__ == '__main__':
     # Decode command line options.
     cmd = CommandLine(sys.argv, USAGE)
     definition_file = cmd.get_opt(['-d', '--definition'], os.path.splitext(__file__)[0] + '.yml')
-    cpuinfo_file = cmd.get_opt(['-c', '--cpuinfo'], '/proc/cpuinfo')
+    cpuinfo_file = cmd.get_opt(['-c', '--cpuinfo'], DEFAULT_CPUINFO)
+    isa_pattern = cmd.get_opt(['-i', '--isa'], DEFAULT_ISAGLOB)
     cmd.check_opt_final()
 
     # Execute command.
     profiles = Profiles(cmd, definition_file)
-    proc = Processor(profiles, cpuinfo_file)
+    proc = Processor(profiles, cpuinfo_file, isa_pattern)
     proc.print()
