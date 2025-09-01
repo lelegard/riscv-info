@@ -43,3 +43,176 @@ $ source ~/.venv/bin/activate
 (.venv) $ deactivate 
 $ 
 ~~~
+
+## Sample output
+
+On a Qemu system with `qemu-system-riscv64 -machine virt -cpu max`:
+~~~
+
+Base architecture
+=================
+RV64IMAFDCVH (64 bits)
+  I: Integer instructions
+  M: Integer multiplication and division
+  A: Atomic instructions
+  F: Single-precision floating-point
+  D: Double-precision floating-point
+  C: Compressed instructions
+  V: Vector operations
+  H: Hypervisor extension
+
+ISA extensions
+==============
+Found 66 extensions
+  Smaia       : Machine-level Advanced Interrupt Architecture
+  Smmpm       : Machine-level pointer masking for M-mode
+  Smnpm       : Machine-level pointer masking for next lower privilege
+  Smstateen   : Machine-mode view of the state-enable extension
+  Ssaia       : Supervisor-level Advanced Interrupt Architecture
+  Sscofpmf    : Count Overflow and Mode-Based Filtering
+  Ssnpm       : Supervisor-level pointer masking for next lower privilege
+  Sstc        : Supervisor-mode timer interrupts
+  Svadu       : Hardware Updating of A/D Bits
+  Svinval     : Fine-Grained Address-Translation Cache Invalidation
+  Svnapot     : NAPOT Translation Contiguity
+  Svpbmt      : Page-Based Memory Types
+  Svvptc      : Obviating Memory-management Instructions after Marking PTEs valid
+  Zabha       : Extension for Byte and Halfword Atomic Memory Operations
+  Zacas       : Extension for Atomic Compare-and-Swap (CAS) instructions
+  Zawrs       : Wait-on-reservation-set instructions
+  Zba         : Address Computation
+  Zbb         : Bit Manipulation
+  Zbc         : Carryless Multiplication
+  Zbkb        : Extension for Bit Manipulation for Cryptography
+  Zbkc        : Extension for Carryless Multiplication for Cryptography
+  Zbkx        : Crossbar Permutation Extension
+  Zbs         : Single-Bit Manipulation
+  Zca         : Compressed instructions
+  Zcb         : Additional compressed instructions
+  Zcd         : Compressed double precision FP loads and stores
+  Zcmop       : Compressed may-be-operations
+  Zfa         : Additional floating-Point instructions
+  Zfh         : Extension for Half-Precision Floating-Point
+  Zfhmin      : Minimal Extension for Half-Precision Floating-Point
+  Zicbom      : Cache-Block Management
+  Zicboz      : Cache-Block Zeroing
+  Ziccrse     : Main memory supports forward progress on LR/SC sequences
+  Zicntr      : Basic performance counters
+  Zicond      : Integer conditional operations
+  Zicsr       : Control and Status Register instructions
+  Zifencei    : Instruction-fetch fence instruction
+  Zihintntl   : Non-temporal locality hints
+  Zihintpause : Pause Hint
+  Zihpm       : Hardware performance counters
+  Zimop       : may-be-operations
+  Zknd        : AES Decryption Extension
+  Zkne        : AES Encryption Extension
+  Zknh        : SHA2 Hashing Extension
+  Zkr         : Entropy Source Extension
+  Zksed       : SM4 Block Cypher Extension
+  Zksh        : SM3 Hashing Extension
+  Zkt         : Data-Independent Execution Latency
+  Ztso        : RISC-V Total Store Ordering (RVTSO)
+  Zvbb        : Vector Basic Bit-manipulation
+  Zvbc        : Vector Carryless Multiplication
+  Zve32f      : Vector Extension for Embedded Processors, VLEN=32, single precision FP
+  Zve32x      : Vector Extension for Embedded Processors, VLEN=32, scalar only
+  Zve64d      : Vector Extension for Embedded Processors, VLEN=64, double precision FP
+  Zve64f      : Vector Extension for Embedded Processors, VLEN=64, single precision FP
+  Zve64x      : Vector Extension for Embedded Processors, VLEN=64, scalar only
+  Zvfh        : Vector half-precision FP
+  Zvfhmin     : Vector Extension for minimal half-precision FP
+  Zvkb        : Vector Cryptography Bit-manipulation
+  Zvkg        : Vector Cryptography GCM/GMAC
+  Zvkned      : NIST Suite Vector AES Block Cipher
+  Zvknha      : NIST Suite Vector SHA-2 Secure Hash (SHA-256 only)
+  Zvknhb      : NIST Suite Vector SHA-2 Secure Hash (SHA-256, SHA-512)
+  Zvksed      : ShangMi Suite SM4 Block Cipher
+  Zvksh       : ShangMi Suite SM3 Secure Hash
+  Zvkt        : Vector Data-Independent Execution Latency
+
+ISA profiles
+============
+  RVI20U32 : No
+  RVI20U64 : Yes
+  RVA20U64 : No
+      Missing 4 extensions:
+      Ziccif   : Main memory supports instruction fetch with atomicity requirement
+      Ziccamoa : Main memory supports all atomics in A
+      Za128rs  : Reservation set size of 128 bytes
+      Zicclsm  : Main memory supports misaligned loads/stores
+  RVA20S64 : No
+      Missing 10 extensions:
+      Ziccif   : Main memory supports instruction fetch with atomicity requirement
+      Ziccamoa : Main memory supports all atomics in A
+      Za128rs  : Reservation set size of 128 bytes
+      Zicclsm  : Main memory supports misaligned loads/stores
+      Ss1p11   : Supervisor Architecture v1.11
+      Svbare   : Bare mode virtual-memory translation supported
+      Svade    : Raise exceptions on improper A/D bits
+      Ssccptr  : Main memory supports page table reads
+      Sstvecd  : stvec supports Direct mode
+      Sstvala  : stval provides all needed values
+  RVA22U64 : No
+      Missing 6 extensions:
+      Ziccif   : Main memory supports instruction fetch with atomicity requirement
+      Ziccamoa : Main memory supports all atomics in A
+      Za64rs   : Reservation set size of 64 bytes
+      Zicclsm  : Main memory supports misaligned loads/stores
+      Zic64b   : Cache block size is 64 bytes
+      Zicbop   : Cache-Block Prefetching
+  RVA22S64 : No
+      Missing 14 extensions:
+      Ziccif       : Main memory supports instruction fetch with atomicity requirement
+      Ziccamoa     : Main memory supports all atomics in A
+      Za64rs       : Reservation set size of 64 bytes
+      Zicclsm      : Main memory supports misaligned loads/stores
+      Zic64b       : Cache block size is 64 bytes
+      Zicbop       : Cache-Block Prefetching
+      Ss1p12       : Supervisor Architecture v1.12
+      Svbare       : Bare mode virtual-memory translation supported
+      Sv39         : Page-Based 39-bit Virtual-Memory System
+      Svade        : Raise exceptions on improper A/D bits
+      Ssccptr      : Main memory supports page table reads
+      Sstvecd      : stvec supports Direct mode
+      Sstvala      : stval provides all needed values
+      Sscounterenw : Support writeable enables for any supported counter
+  RVA23U64 : No
+      Missing 1 flags: B
+      Missing 7 extensions:
+      Ziccif   : Main memory supports instruction fetch with atomicity requirement
+      Ziccamoa : Main memory supports all atomics in A
+      Za64rs   : Reservation set size of 64 bytes
+      Zicclsm  : Main memory supports misaligned loads/stores
+      Zic64b   : Cache block size is 64 bytes
+      Zicbop   : Cache-Block Prefetching
+      Supm     : Indicates that there is pointer-masking support in user mode
+  RVA23S64 : No
+      Missing 1 flags: B
+      Missing 24 extensions:
+      Ziccif       : Main memory supports instruction fetch with atomicity requirement
+      Ziccamoa     : Main memory supports all atomics in A
+      Za64rs       : Reservation set size of 64 bytes
+      Zicclsm      : Main memory supports misaligned loads/stores
+      Zic64b       : Cache block size is 64 bytes
+      Zicbop       : Cache-Block Prefetching
+      Supm         : Indicates that there is pointer-masking support in user mode
+      Ss1p13       : Supervisor Architecture v1.13
+      Svbare       : Bare mode virtual-memory translation supported
+      Sv39         : Page-Based 39-bit Virtual-Memory System
+      Svade        : Raise exceptions on improper A/D bits
+      Ssccptr      : Main memory supports page table reads
+      Sstvecd      : stvec supports Direct mode
+      Sstvala      : stval provides all needed values
+      Sscounterenw : Support writeable enables for any supported counter
+      Ssu64xl      : UXLEN=64 must be supported
+      Sha          : Augmented hypervisor extension
+      Ssstateen    : Supervisor-mode view of the state-enable extension
+      Shcounterenw : Support writeable enables for any supported counter
+      Shvstvala    : vstval provides all needed values
+      Shtvala      : htval provides all needed values
+      Shvstvecd    : vstvec supports Direct mode
+      Shvsatpa     : vsatp supports all modes supported by satp
+      Shgatpa      : SvNNx4 mode supported for all modes supported by satp, as well as Bare
+
+~~~
