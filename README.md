@@ -18,6 +18,11 @@ $ scp vmriscv:/proc/cpuinfo cpuinfo.qemu.riscv
 $ ./riscv_info.py --cpuinfo cpuinfo.qemu.riscv
 ~~~
 
+The repository contains the following sample files:
+
+- `cpuinfo.qemu.default`: collected on Ubuntu 25.04 on a Qemu system with default CPU.
+- `cpuinfo.qemu.cpumax`: collected on Ubuntu 25.04 on a Qemu system with `-cpu max`.
+
 ## Prerequisite: PyYAML Python module
 
 Install on Ubuntu:
