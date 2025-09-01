@@ -2,23 +2,39 @@
 
 The Python script `riscv_info.py` displays information on the RISC-V processor on which it runs.
 
-Note: Linux only, tested on Qemu only.
+Limitations:
+- Works on Linux only.
+- Tested on Qemu emulated RISC-V processors only.
 
-Prerequisite: PyYAML Python module.
+## Testing on other architectures
 
-- On Ubuntu: `sudo apt install python3-yaml`
-- On macOS, for test, using `--cpuinfo` option: use a Python virtual environment, see example below.
+The script uses the `/proc/cpuinfo` of the RISC-V system. You can copy that pseudo-file
+from a RISC-V system as a text file on another system and run the script there using
+option `--cpuinfo` (or `-c`).
 
+Example:
+~~~
+$ scp vmriscv:/proc/cpuinfo cpuinfo.qemu.riscv
+$ ./riscv_info.py --cpuinfo cpuinfo.qemu.riscv
+~~~
+
+## Prerequisite: PyYAML Python module
+
+Install on Ubuntu:
+~~~
+sudo apt install python3-yaml
+~~~
+
+Install on macOS: The PyYAML module has been deprecated in HomeBrew for obscure reasons.
+Use a Python virtual environment.
+
+Example:
 ~~~
 $ mkdir ~/.venv
 $ python3 -m venv ~/.venv
 $ source ~/.venv/bin/activate
 (.venv) $ python3 -m pip install pyyaml
-(.venv) $ python -q
->>> import yaml
->>> yaml.__version__
-'6.0.2'
->>> 
+(.venv) $ ./riscv_info.py --cpuinfo cpuinfo.qemu.riscv
 (.venv) $ deactivate 
 $ 
 ~~~
