@@ -33,6 +33,7 @@ shorthands:
 # Known RISC-V extensions.
 # Feel free to submit contributions to supplement it (keep the list sorted).
 extensions:
+  Sdext: Debug extension
   Sdtrig: Debug triggers
   Sha: Augmented hypervisor extension
   Shcounterenw: Support writeable enables for any supported counter
@@ -43,13 +44,16 @@ extensions:
   Shvstvecd: vstvec supports Direct mode
   Sm1p11: Machine Architecture v1.11
   Sm1p12: Machine Architecture v1.12
+  Smaia: Machine-level Advanced Interrupt Architecture
   Smctr: Control Transfer Records, machine and supervisor modes
   Smmpm: Machine-level pointer masking for M-mode
   Smnpm: Machine-level pointer masking for next lower privilege
   Smstateen: Machine-mode view of the state-enable extension
+  Svrsw60t59b: PTE Reserved-for-Software Bits 60-59
   Ss1p11: Supervisor Architecture v1.11
   Ss1p12: Supervisor Architecture v1.12
   Ss1p13: Supervisor Architecture v1.13
+  Ssaia: Supervisor-level Advanced Interrupt Architecture
   Ssccptr: Main memory supports page table reads
   Sscofpmf: Count Overflow and Mode-Based Filtering
   Sscounterenw: Support writeable enables for any supported counter
@@ -87,7 +91,11 @@ extensions:
   Zbb: Bit Manipulation
   Zbc: Carryless Multiplication
   Zbs: Single-Bit Manipulation
+  Zca: Compressed instructions
   Zcb: Additional compressed instructions
+  Zce: Compressed instructions for embedded microcontrollers
+  Zcd: Compressed double precision FP loads and stores
+  Zcf: Compressed single precision FP loads and stores (RV32 only)
   Zclsd: Compressed Load/Store pair instructions
   Zcmop: Compressed may-be-operations
   Zdinx: Double-Precision Floating-Point in x-registers
@@ -128,13 +136,31 @@ extensions:
   Zksed: SM4 Block Cypher Extension
   Zksh: SM3 Hashing Extension
   Zkt: Data-Independent Execution Latency
+  Ztso: RISC-V Total Store Ordering (RVTSO)
   Zvbb: Vector Basic Bit-manipulation
   Zvbc: Vector Carryless Multiplication
+  Zve32f: Vector Extension for Embedded Processors, VLEN=32, single precision FP
+  Zve32x: Vector Extension for Embedded Processors, VLEN=32, scalar only
+  Zve64d: Vector Extension for Embedded Processors, VLEN=64, double precision FP
+  Zve64f: Vector Extension for Embedded Processors, VLEN=64, single precision FP
+  Zve64x: Vector Extension for Embedded Processors, VLEN=64, scalar only
   Zvfbfmin: Vector BF16 converts
   Zvfbfwma: Vector BF16 widening mul-add
-  Zvfh: Vector half-precision floating-point
-  Zvkng: NIST Algorithm Suite with GCM
-  Zvksg: ShangMi Algorithm Suite with GCM
+  Zvfh: Vector half-precision FP
+  Zvfhmin: Vector Extension for minimal half-precision FP
+  Zvkb: Vector Cryptography Bit-manipulation
+  Zvkg: Vector Cryptography GCM/GMAC
+  Zvkn: NIST Algorithm Suite
+  Zvknc: NIST Suite with carryless multiply
+  Zvkned: NIST Suite Vector AES Block Cipher
+  Zvkng: NIST Suite Vector AES with GCM
+  Zvknha: NIST Suite Vector SHA-2 Secure Hash (SHA-256 only)
+  Zvknhb: NIST Suite Vector SHA-2 Secure Hash (SHA-256, SHA-512)
+  Zvks: ShangMi (SM) Algorithm Suite
+  Zvksc: ShangMi Suite with carryless multiplication
+  Zvksed: ShangMi Suite SM4 Block Cipher
+  Zvksg: ShangMi Suite with GCM
+  Zvksh: ShangMi Suite SM3 Secure Hash
   Zvkt: Vector Data-Independent Execution Latency
 
 # Known RISC-V profiles.

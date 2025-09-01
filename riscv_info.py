@@ -254,9 +254,9 @@ class Processor:
                         supported = False
             print('  %-*s : %s' % (width, pname, 'Yes' if supported else 'No'), file=file)
             if len(missing_flags) > 0:
-                print('      Missing flags: %s' % missing_flags, file=file)
+                print('      Missing %d flags: %s' % (len(missing_flags), missing_flags), file=file)
             if len(missing_exts) > 0:
-                print('      Missing extensions:', file=file)
+                print('      Missing %d extensions:' % len(missing_exts), file=file)
                 ewidth = max(len(e) for e in missing_exts)
                 for e in missing_exts:
                     print('      %-*s : %s' % (ewidth, e, self.profiles.extension_desc(e)), file=file)
