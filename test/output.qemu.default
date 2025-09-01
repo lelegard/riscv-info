@@ -1,0 +1,152 @@
+
+Base architecture
+=================
+RV64IMAFDCH (64 bits)
+  I: Integer instructions
+  M: Integer multiplication and division
+  A: Atomic instructions
+  F: Single-precision floating-point
+  D: Double-precision floating-point
+  C: Compressed instructions
+  H: Hypervisor extension
+
+ISA extensions
+==============
+Found 11 extensions
+  Sstc        : Supervisor-mode timer interrupts
+  Zba         : Address Computation
+  Zbb         : Bit Manipulation
+  Zbs         : Single-Bit Manipulation
+  Zicbom      : Cache-Block Management
+  Zicboz      : Cache-Block Zeroing
+  Zicntr      : Basic performance counters
+  Zicsr       : Control and Status Register instructions
+  Zifencei    : Instruction-fetch fence instruction
+  Zihintpause : Pause Hint
+  Zihpm       : Hardware performance counters
+
+ISA profiles
+============
+  RVI20U32 : No
+  RVI20U64 : Yes
+  RVA20U64 : No
+      Missing 5 extensions:
+      Ziccif   : Main memory supports instruction fetch with atomicity requirement
+      Ziccrse  : Main memory supports forward progress on LR/SC sequences
+      Ziccamoa : Main memory supports all atomics in A
+      Za128rs  : Reservation set size of 128 bytes
+      Zicclsm  : Main memory supports misaligned loads/stores
+  RVA20S64 : No
+      Missing 11 extensions:
+      Ziccif   : Main memory supports instruction fetch with atomicity requirement
+      Ziccrse  : Main memory supports forward progress on LR/SC sequences
+      Ziccamoa : Main memory supports all atomics in A
+      Za128rs  : Reservation set size of 128 bytes
+      Zicclsm  : Main memory supports misaligned loads/stores
+      Ss1p11   : Supervisor Architecture v1.11
+      Svbare   : Bare mode virtual-memory translation supported
+      Svade    : Raise exceptions on improper A/D bits
+      Ssccptr  : Main memory supports page table reads
+      Sstvecd  : stvec supports Direct mode
+      Sstvala  : stval provides all needed values
+  RVA22U64 : No
+      Missing 9 extensions:
+      Ziccif   : Main memory supports instruction fetch with atomicity requirement
+      Ziccrse  : Main memory supports forward progress on LR/SC sequences
+      Ziccamoa : Main memory supports all atomics in A
+      Za64rs   : Reservation set size of 64 bytes
+      Zicclsm  : Main memory supports misaligned loads/stores
+      Zic64b   : Cache block size is 64 bytes
+      Zicbop   : Cache-Block Prefetching
+      Zfhmin   : Minimal Extension for Half-Precision Floating-Point
+      Zkt      : Data-Independent Execution Latency
+  RVA22S64 : No
+      Missing 19 extensions:
+      Ziccif       : Main memory supports instruction fetch with atomicity requirement
+      Ziccrse      : Main memory supports forward progress on LR/SC sequences
+      Ziccamoa     : Main memory supports all atomics in A
+      Za64rs       : Reservation set size of 64 bytes
+      Zicclsm      : Main memory supports misaligned loads/stores
+      Zic64b       : Cache block size is 64 bytes
+      Zicbop       : Cache-Block Prefetching
+      Zfhmin       : Minimal Extension for Half-Precision Floating-Point
+      Zkt          : Data-Independent Execution Latency
+      Ss1p12       : Supervisor Architecture v1.12
+      Svbare       : Bare mode virtual-memory translation supported
+      Sv39         : Page-Based 39-bit Virtual-Memory System
+      Svade        : Raise exceptions on improper A/D bits
+      Ssccptr      : Main memory supports page table reads
+      Sstvecd      : stvec supports Direct mode
+      Sstvala      : stval provides all needed values
+      Sscounterenw : Support writeable enables for any supported counter
+      Svpbmt       : Page-Based Memory Types
+      Svinval      : Fine-Grained Address-Translation Cache Invalidation
+  RVA23U64 : No
+      Missing 2 flags: BV
+      Missing 20 extensions:
+      Ziccif    : Main memory supports instruction fetch with atomicity requirement
+      Ziccrse   : Main memory supports forward progress on LR/SC sequences
+      Ziccamoa  : Main memory supports all atomics in A
+      Za64rs    : Reservation set size of 64 bytes
+      Zicclsm   : Main memory supports misaligned loads/stores
+      Zic64b    : Cache block size is 64 bytes
+      Zicbop    : Cache-Block Prefetching
+      Zfhmin    : Minimal Extension for Half-Precision Floating-Point
+      Zfhmin    : Minimal Extension for Half-Precision Floating-Point
+      Zvfhmin   : Vector Extension for minimal half-precision FP
+      Zvbb      : Vector Basic Bit-manipulation
+      Zvkt      : Vector Data-Independent Execution Latency
+      Zihintntl : Non-temporal locality hints
+      Zicond    : Integer conditional operations
+      Zimop     : may-be-operations
+      Zcmop     : Compressed may-be-operations
+      Zcb       : Additional compressed instructions
+      Zfa       : Additional floating-Point instructions
+      Zawrs     : Wait-on-reservation-set instructions
+      Supm      : Indicates that there is pointer-masking support in user mode
+  RVA23S64 : No
+      Missing 2 flags: BV
+      Missing 42 extensions:
+      Ziccif       : Main memory supports instruction fetch with atomicity requirement
+      Ziccrse      : Main memory supports forward progress on LR/SC sequences
+      Ziccamoa     : Main memory supports all atomics in A
+      Za64rs       : Reservation set size of 64 bytes
+      Zicclsm      : Main memory supports misaligned loads/stores
+      Zic64b       : Cache block size is 64 bytes
+      Zicbop       : Cache-Block Prefetching
+      Zfhmin       : Minimal Extension for Half-Precision Floating-Point
+      Zfhmin       : Minimal Extension for Half-Precision Floating-Point
+      Zvfhmin      : Vector Extension for minimal half-precision FP
+      Zvbb         : Vector Basic Bit-manipulation
+      Zvkt         : Vector Data-Independent Execution Latency
+      Zihintntl    : Non-temporal locality hints
+      Zicond       : Integer conditional operations
+      Zimop        : may-be-operations
+      Zcmop        : Compressed may-be-operations
+      Zcb          : Additional compressed instructions
+      Zfa          : Additional floating-Point instructions
+      Zawrs        : Wait-on-reservation-set instructions
+      Supm         : Indicates that there is pointer-masking support in user mode
+      Ss1p13       : Supervisor Architecture v1.13
+      Svbare       : Bare mode virtual-memory translation supported
+      Sv39         : Page-Based 39-bit Virtual-Memory System
+      Svade        : Raise exceptions on improper A/D bits
+      Ssccptr      : Main memory supports page table reads
+      Sstvecd      : stvec supports Direct mode
+      Sstvala      : stval provides all needed values
+      Sscounterenw : Support writeable enables for any supported counter
+      Svpbmt       : Page-Based Memory Types
+      Svinval      : Fine-Grained Address-Translation Cache Invalidation
+      Svnapot      : NAPOT Translation Contiguity
+      Sscofpmf     : Count Overflow and Mode-Based Filtering
+      Ssnpm        : Supervisor-level pointer masking for next lower privilege
+      Ssu64xl      : UXLEN=64 must be supported
+      Sha          : Augmented hypervisor extension
+      Ssstateen    : Supervisor-mode view of the state-enable extension
+      Shcounterenw : Support writeable enables for any supported counter
+      Shvstvala    : vstval provides all needed values
+      Shtvala      : htval provides all needed values
+      Shvstvecd    : vstvec supports Direct mode
+      Shvsatpa     : vsatp supports all modes supported by satp
+      Shgatpa      : SvNNx4 mode supported for all modes supported by satp, as well as Bare
+
