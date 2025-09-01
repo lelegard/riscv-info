@@ -43,9 +43,9 @@ Options:
 
 ## Testing on other architectures
 
-The script uses the `/proc/cpuinfo` of the RISC-V system. You can copy that pseudo-file
-from a RISC-V system as a text file on another system and run the script there using
-option `--cpuinfo` (or `-c`).
+The script uses `/proc/cpuinfo` and `/proc/device-tree/cpus/*/riscv,isa-extensions`
+on the RISC-V system. You can copy these pseudo-files from a RISC-V system on another
+system and run the script there using options `--cpuinfo` and `--isa`.
 
 Example:
 ~~~
@@ -54,13 +54,12 @@ $ scp vmriscv:/proc/device-tree/cpus/cpu@0/riscv,isa-extensions isa-extensions.q
 $ ./riscv_info.py --cpuinfo cpuinfo.qemu.riscv --isa isa-extensions.qemu.riscv
 ~~~
 
-The directory `test` in this repository contains the following sample files:
+The directory `test` in this repository contains sample input and output files for
+the following configurations:
 
-- `cpuinfo.qemu.default`: collected on Ubuntu 25.04 on a Qemu system with default CPU.
-- `cpuinfo.qemu.rva23s64`: collected on Ubuntu 25.04 on a Qemu system with `-cpu rva23s64` (RVA23 profile).
-- `cpuinfo.qemu.cpumax`: collected on Ubuntu 25.04 on a Qemu system with `-cpu max`.
-
-The corresponding output files are provided.
+- Ubuntu 25.04 on a Qemu system with default CPU.
+- Ubuntu 25.04 on a Qemu system with `-cpu rva23s64` (RVA23 profile).
+- Ubuntu 25.04 on a Qemu system with `-cpu max`.
 
 ## Prerequisite: PyYAML Python module
 

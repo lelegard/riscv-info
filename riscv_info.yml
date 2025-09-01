@@ -45,8 +45,13 @@ extensions:
   Sm1p11: Machine Architecture v1.11
   Sm1p12: Machine Architecture v1.12
   Smaia: Machine-level Advanced Interrupt Architecture
+  Smcdeleg: Machine-level Counter Delegation
+  Smcntrpmf: Cycle and Instret Privilege Mode Filtering
+  Smcsrind: Machine-level indirect CSR access
   Smctr: Control Transfer Records, machine and supervisor modes
-  Smmpm: Machine-level pointer masking for M-mode
+  Smdbltrp: Address double trap in Machine-mode
+  Smepmp: Machine-level memory access and execution prevention
+  Smmpm: Machine-level pointer masking for Machine-mode
   Smnpm: Machine-level pointer masking for next lower privilege
   Smstateen: Machine-mode view of the state-enable extension
   Svrsw60t59b: PTE Reserved-for-Software Bits 60-59
@@ -54,10 +59,14 @@ extensions:
   Ss1p12: Supervisor Architecture v1.12
   Ss1p13: Supervisor Architecture v1.13
   Ssaia: Supervisor-level Advanced Interrupt Architecture
+  Ssccfg: Supervisor-level Counter Configuration
   Ssccptr: Main memory supports page table reads
+  Sscdeleg: Supervisor-level Counter Delegation
   Sscofpmf: Count Overflow and Mode-Based Filtering
   Sscounterenw: Support writeable enables for any supported counter
+  Sscsrind: Supervisor-level indirect CSR access
   Ssctr: Control Transfer Records, supervisor mode only
+  Ssdbltrp: Address double trap at privilege modes lower than Machine
   Ssnpm: Supervisor-level pointer masking for next lower privilege
   Sspm: Indicates that there is pointer-masking support in supervisor mode
   Ssstateen: Supervisor-mode view of the state-enable extension
@@ -78,10 +87,12 @@ extensions:
   Svnapot: NAPOT Translation Contiguity
   Svpbmt: Page-Based Memory Types
   Svvptc: Obviating Memory-management Instructions after Marking PTEs valid
+  Zaamo: Atomic Memory Operations
   Za128rs: Reservation set size of 128 bytes
   Za64rs: Reservation set size of 64 bytes
   Zabha: Extension for Byte and Halfword Atomic Memory Operations
   Zacas: Extension for Atomic Compare-and-Swap (CAS) instructions
+  Zalrsc: Load-Reserved/Store-conditional
   Zama16b: Atomic misaligned acces to main memory regions that do not cross aligned 16-byte boundary
   Zawrs: Wait-on-reservation-set instructions
   Zba: Address Computation
@@ -136,6 +147,7 @@ extensions:
   Zksed: SM4 Block Cypher Extension
   Zksh: SM3 Hashing Extension
   Zkt: Data-Independent Execution Latency
+  Zmmul: Multiplication subset of M (MUL, MULH, MULHU, MULHSU, MULW)
   Ztso: RISC-V Total Store Ordering (RVTSO)
   Zvbb: Vector Basic Bit-manipulation
   Zvbc: Vector Carryless Multiplication
