@@ -12,8 +12,9 @@ RV64IMAFDCH (64 bits)
 
 ISA extensions
 ==============
-Found 11 extensions
+Found 12 extensions
   Sstc        : Supervisor-mode timer interrupts
+  Sv48        : Page-Based 48-bit Virtual-Memory System
   Zba         : Address Computation
   Zbb         : Bit Manipulation
   Zbs         : Single-Bit Manipulation

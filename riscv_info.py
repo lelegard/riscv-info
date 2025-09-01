@@ -21,7 +21,7 @@ Options:
 
   -d filename
   --definition filename
-     Use the specified file instead of the default JSON definition file for
+     Use the specified file instead of the default YAML definition file for
      RISC-V configurations which comes with that script.
 
   -h
@@ -179,9 +179,8 @@ class Processor:
         self.cmd = profiles.cmd
         with open(cpuinfo_file, 'r') as input:
             for line in input:
-                # Keep only lines with 'isa' or 'hart isa'
                 prefix, _, value = line.partition(':')
-                if prefix.strip().lower() in ['isa', 'hart isa']:
+                if prefix.strip().lower() in ['isa', 'hart isa', 'mmu']:
                     # Loop on all characteristics of the processor.
                     for c in value.strip().split('_'):
                         # The base ISA is RV32xxx, RV64xxx, RV128xxx.

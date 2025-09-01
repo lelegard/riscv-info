@@ -13,12 +13,13 @@ RV64IMAFDCVH (64 bits)
 
 ISA extensions
 ==============
-Found 40 extensions
+Found 41 extensions
   Smnpm       : Machine-level pointer masking for next lower privilege
   Smstateen   : Machine-mode view of the state-enable extension
   Sscofpmf    : Count Overflow and Mode-Based Filtering
   Ssnpm       : Supervisor-level pointer masking for next lower privilege
   Sstc        : Supervisor-mode timer interrupts
+  Sv39        : Page-Based 39-bit Virtual-Memory System
   Svade       : Raise exceptions on improper A/D bits
   Svinval     : Fine-Grained Address-Translation Cache Invalidation
   Svnapot     : NAPOT Translation Contiguity
@@ -85,7 +86,7 @@ ISA profiles
       Zic64b   : Cache block size is 64 bytes
       Zicbop   : Cache-Block Prefetching
   RVA22S64 : No
-      Missing 13 extensions:
+      Missing 12 extensions:
       Ziccif       : Main memory supports instruction fetch with atomicity requirement
       Ziccamoa     : Main memory supports all atomics in A
       Za64rs       : Reservation set size of 64 bytes
@@ -94,7 +95,6 @@ ISA profiles
       Zicbop       : Cache-Block Prefetching
       Ss1p12       : Supervisor Architecture v1.12
       Svbare       : Bare mode virtual-memory translation supported
-      Sv39         : Page-Based 39-bit Virtual-Memory System
       Ssccptr      : Main memory supports page table reads
       Sstvecd      : stvec supports Direct mode
       Sstvala      : stval provides all needed values
@@ -111,7 +111,7 @@ ISA profiles
       Supm     : Indicates that there is pointer-masking support in user mode
   RVA23S64 : No
       Missing 1 flags: B
-      Missing 23 extensions:
+      Missing 22 extensions:
       Ziccif       : Main memory supports instruction fetch with atomicity requirement
       Ziccamoa     : Main memory supports all atomics in A
       Za64rs       : Reservation set size of 64 bytes
@@ -121,7 +121,6 @@ ISA profiles
       Supm         : Indicates that there is pointer-masking support in user mode
       Ss1p13       : Supervisor Architecture v1.13
       Svbare       : Bare mode virtual-memory translation supported
-      Sv39         : Page-Based 39-bit Virtual-Memory System
       Ssccptr      : Main memory supports page table reads
       Sstvecd      : stvec supports Direct mode
       Sstvala      : stval provides all needed values

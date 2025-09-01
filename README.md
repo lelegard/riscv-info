@@ -5,6 +5,7 @@ The Python script `riscv_info.py` displays information on the RISC-V processor o
 Limitations:
 - Works on Linux only.
 - Tested on Qemu emulated RISC-V processors only.
+- The list of extensions in the YAML file is incomplete.
 
 ## Testing on other architectures
 

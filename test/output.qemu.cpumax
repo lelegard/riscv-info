@@ -13,7 +13,7 @@ RV64IMAFDCVH (64 bits)
 
 ISA extensions
 ==============
-Found 66 extensions
+Found 67 extensions
   Smaia       : Machine-level Advanced Interrupt Architecture
   Smmpm       : Machine-level pointer masking for M-mode
   Smnpm       : Machine-level pointer masking for next lower privilege
@@ -22,6 +22,7 @@ Found 66 extensions
   Sscofpmf    : Count Overflow and Mode-Based Filtering
   Ssnpm       : Supervisor-level pointer masking for next lower privilege
   Sstc        : Supervisor-mode timer interrupts
+  Sv48        : Page-Based 48-bit Virtual-Memory System
   Svadu       : Hardware Updating of A/D Bits
   Svinval     : Fine-Grained Address-Translation Cache Invalidation
   Svnapot     : NAPOT Translation Contiguity

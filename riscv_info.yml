@@ -28,7 +28,7 @@ flags:
 
 # Shorthands for architecture flags.
 shorthands:
-  # Q: IMAFD
+  G: IMAFD
 
 # Known RISC-V extensions.
 # Feel free to submit contributions to supplement it (keep the list sorted).
