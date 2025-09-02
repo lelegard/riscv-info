@@ -1,11 +1,20 @@
 # RISC-V Processor Information
 
-The Python script `riscv_info.py` displays information on the RISC-V processor on which it runs.
+The Python script `riscv_info.py` displays information on the RISC-V processor
+on which it runs. The displayed information is:
+
+- Base architecture flags
+- Supported ISA extensions
+- Supported profiles
+- With option `--verbose` or `-v`, for each unsupported profile, display the
+  list of missing extensions for that profile.
 
 Limitations:
+
 - Works on Linux only.
 - Tested on Qemu emulated RISC-V processors only.
-- The list of extensions in the YAML file is incomplete.
+- The list of extensions in the YAML file is probably incomplete.
+  Feel free to submit a pull request with missing names.
 
 ## Usage
 
@@ -25,6 +34,14 @@ Options:
      Use the specified file instead of the default YAML definition file for
      RISC-V configurations which comes with that script.
 
+  -e
+  --list-extensions
+     List known extensions.
+
+  -h
+  --help
+     Display this help text.
+
   -i pattern
   --isa
      Use the specified file pattern, with optional wildcards, for the
@@ -32,9 +49,13 @@ Options:
      Useful to test alternative configurations.
      Default: /proc/device-tree/cpus/*/riscv,isa-extensions
 
-  -h
-  --help
-     Display this help text.
+  -l
+  --list-profiles
+     List known profiles.
+
+  -p name
+  --profile name
+     Display the characteristics of the specified profile.
 
   -v
   --verbose
