@@ -9,14 +9,14 @@ RV64IMAFDCVH (64 bits)
   D: Double-precision floating-point
   C: Compressed instructions
   V: Vector operations
-  H: Hypervisor extension
+  H: Hypervisor
   B: Bit manipulation
 
 ISA extensions
 ==============
 Found 66 extensions
   Sdtrig       : Debug triggers
-  Sha          : Augmented hypervisor extension
+  Sha          : Augmented hypervisor
   Shcounterenw : Support writeable enables for any supported counter
   Shgatpa      : SvNNx4 mode supported for all modes supported by satp, as well as Bare
   Shtvala      : htval provides all needed values
@@ -24,40 +24,40 @@ Found 66 extensions
   Shvstvala    : vstval provides all needed values
   Shvstvecd    : vstvec supports Direct mode
   Smnpm        : Machine-level pointer masking for next lower privilege
-  Smstateen    : Machine-mode view of the state-enable extension
+  Smstateen    : Machine-level view of the state-enable
   Ssccptr      : Main memory supports page table reads
-  Sscofpmf     : Count Overflow and Mode-Based Filtering
+  Sscofpmf     : Count overflow and mode-based filtering
   Sscounterenw : Support writeable enables for any supported counter
   Ssnpm        : Supervisor-level pointer masking for next lower privilege
-  Ssstateen    : Supervisor-mode view of the state-enable extension
+  Ssstateen    : Supervisor-level view of the state-enable
   Ssstrict     : Unimplemented reserved encodings raise illegal instruction exceptions
-  Sstc         : Supervisor-mode timer interrupts
+  Sstc         : Supervisor-level timer interrupts
   Sstvala      : stval provides all needed values
-  Sstvecd      : stvec supports Direct mode
+  Sstvecd      : stvec supports direct mode
   Ssu64xl      : UXLEN=64 must be supported
   Supm         : Indicates that there is pointer-masking support in user mode
-  Sv39         : Page-Based 39-bit Virtual-Memory System
+  Sv39         : Page-based 39-bit virtual-memory system
   Svade        : Raise exceptions on improper A/D bits
-  Svinval      : Fine-Grained Address-Translation Cache Invalidation
-  Svnapot      : NAPOT Translation Contiguity
-  Svpbmt       : Page-Based Memory Types
+  Svinval      : Fine-grained address-translation cache invalidation
+  Svnapot      : NAPOT translation contiguity
+  Svpbmt       : Page-based memory types
   Za64rs       : Reservation set size of 64 bytes
-  Zaamo        : Unknown
-  Zalrsc       : Unknown
+  Zaamo        : Atomic memory operations
+  Zalrsc       : Load-reserved/store-conditional
   Zawrs        : Wait-on-reservation-set instructions
-  Zba          : Address Computation
-  Zbb          : Bit Manipulation
-  Zbs          : Single-Bit Manipulation
+  Zba          : Address computation
+  Zbb          : Bit manipulation
+  Zbs          : Single-bit manipulation
   Zca          : Compressed instructions
   Zcb          : Additional compressed instructions
   Zcd          : Compressed double precision FP loads and stores
   Zcmop        : Compressed may-be-operations
-  Zfa          : Additional floating-Point instructions
-  Zfhmin       : Minimal Extension for Half-Precision Floating-Point
+  Zfa          : Additional FP instructions
+  Zfhmin       : Minimal half-precision FP
   Zic64b       : Cache block size is 64 bytes
-  Zicbom       : Cache-Block Management
-  Zicbop       : Cache-Block Prefetching
-  Zicboz       : Cache-Block Zeroing
+  Zicbom       : Cache-block management
+  Zicbop       : Cache-block prefetching
+  Zicboz       : Cache-block zeroing
   Ziccamoa     : Main memory supports all atomics in A
   Ziccif       : Main memory supports instruction fetch with atomicity requirement
   Zicclsm      : Main memory supports misaligned loads/stores
@@ -70,38 +70,42 @@ Found 66 extensions
   Zihintpause  : Pause Hint
   Zihpm        : Hardware performance counters
   Zimop        : may-be-operations
-  Zkt          : Data-Independent Execution Latency
-  Zmmul        : Unknown
-  Zvbb         : Vector Basic Bit-manipulation
-  Zve32f       : Vector Extension for Embedded Processors, VLEN=32, single precision FP
-  Zve32x       : Vector Extension for Embedded Processors, VLEN=32, scalar only
-  Zve64d       : Vector Extension for Embedded Processors, VLEN=64, double precision FP
-  Zve64f       : Vector Extension for Embedded Processors, VLEN=64, single precision FP
-  Zve64x       : Vector Extension for Embedded Processors, VLEN=64, scalar only
-  Zvfhmin      : Vector Extension for minimal half-precision FP
-  Zvkb         : Vector Cryptography Bit-manipulation
-  Zvkt         : Vector Data-Independent Execution Latency
+  Zkt          : Data-independent execution latency
+  Zmmul        : Multiplication subset of M (MUL, MULH, MULHU, MULHSU, MULW)
+  Zvbb         : Vector basic bit-manipulation
+  Zve32f       : Embedded vectors (32-bit int, 32-bit FP)
+  Zve32x       : Embedded vectors (32-bit int)
+  Zve64d       : Embedded vectors (64-bit int, 64-bit FP)
+  Zve64f       : Embedded vectors (64-bit int, 32-bit FP)
+  Zve64x       : Embedded vectors (64-bit int)
+  Zvfhmin      : Vector for minimal half-precision FP
+  Zvkb         : Vector cryptography bit-manipulation
+  Zvkt         : Vector data-independent execution latency
 
 ISA profiles
 ============
   RVI20U32 : No
   RVI20U64 : Yes
   RVA20U64 : No
-      Missing 1 extensions:
-      Za128rs : Reservation set size of 128 bytes
+    Missing 1 extensions:
+    Za128rs : Reservation set size of 128 bytes
   RVA20S64 : No
-      Missing 3 extensions:
-      Za128rs : Reservation set size of 128 bytes
-      Ss1p11  : Supervisor Architecture v1.11
-      Svbare  : Bare mode virtual-memory translation supported
+    Missing 3 extensions:
+    Za128rs : Reservation set size of 128 bytes
+    Ss1p11  : Supervisor-level architecture v1.11
+    Svbare  : Bare mode virtual-memory translation supported
   RVA22U64 : Yes
   RVA22S64 : No
-      Missing 2 extensions:
-      Ss1p12 : Supervisor Architecture v1.12
-      Svbare : Bare mode virtual-memory translation supported
+    Missing 2 extensions:
+    Ss1p12 : Supervisor-level architecture v1.12
+    Svbare : Bare mode virtual-memory translation supported
   RVA23U64 : Yes
   RVA23S64 : No
-      Missing 2 extensions:
-      Ss1p13 : Supervisor Architecture v1.13
-      Svbare : Bare mode virtual-memory translation supported
+    Missing 2 extensions:
+    Ss1p13 : Supervisor-level architecture v1.13
+    Svbare : Bare mode virtual-memory translation supported
+  RVB23U64 : Yes
+  RVB23S64 : No
+    Missing 1 extensions:
+    Ss1p13 : Supervisor-level architecture v1.13
 
