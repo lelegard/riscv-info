@@ -93,9 +93,9 @@ extensions:
   Svpbmt: Page-based memory types
   Svrsw60t59b: PTE reserved-for-software bits 60-59
   Svvptc: Obviating memory-management instructions after marking PTEs valid
-  Zaamo: Atomic memory operations
   Za128rs: Reservation set size of 128 bytes
   Za64rs: Reservation set size of 64 bytes
+  Zaamo: Atomic memory operations
   Zabha: Byte and halfword atomic memory operations
   Zacas: Atomic compare-and-swap (CAS) instructions
   Zalrsc: Load-reserved/store-conditional
@@ -105,9 +105,6 @@ extensions:
   Zbb: Bit manipulation
   Zbc: Carryless multiplication
   Zbkb: Bit manipulation for cryptography
-  Zbkc: Carryless multiplication for cryptography
-  Zbkx: Crossbar permutation
-  Zbkb: Manipulation for cryptography
   Zbkc: Carryless multiplication for cryptography
   Zbkx: Crossbar permutation
   Zbs: Single-bit manipulation
@@ -139,8 +136,8 @@ extensions:
   Ziccrse: Main memory supports forward progress on LR/SC sequences
   Zicfilp: Landing pads
   Zicfiss: Shadow stack
-  Zicond: Integer conditional operations
   Zicntr: Basic performance counters
+  Zicond: Integer conditional operations
   Zicsr: Control and Status Register instructions
   Zifencei: Instruction-fetch fence instruction
   Zihintntl: Non-temporal locality hints
