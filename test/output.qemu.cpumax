@@ -66,7 +66,7 @@ Found 118 extensions
   Zba          : Address computation
   Zbb          : Bit manipulation
   Zbc          : Carryless multiplication
-  Zbkb         : Manipulation for cryptography
+  Zbkb         : Bit manipulation for cryptography
   Zbkc         : Carryless multiplication for cryptography
   Zbkx         : Crossbar permutation
   Zbs          : Single-bit manipulation
