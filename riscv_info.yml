@@ -4,6 +4,10 @@
 #  Copyright (c) 2025, Thierry Lelegard
 #  BSD-2-Clause license, see https://opensource.org/license/BSD-2-Clause
 #
+#  This YAML file contains all know architecture flags, extensions, and
+#  profiles of the RISC-V architecture. It is used by script riscv_info.py.
+#  Feel free to submit a pull request with missing names.
+#
 #-----------------------------------------------------------------------------
 
 # The base architecture contains the following letters.
@@ -31,7 +35,6 @@ shorthands:
   G: IMAFD
 
 # Known RISC-V extensions.
-# Feel free to submit contributions to supplement it (keep the list sorted).
 extensions:
   Sdext: Debug extension
   Sdtrig: Debug triggers

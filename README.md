@@ -3,11 +3,14 @@
 The Python script `riscv_info.py` displays information on the RISC-V processor
 on which it runs. The displayed information is:
 
-- Base architecture flags
-- Supported ISA extensions
-- Supported profiles
+- Base architecture flags.
+- Supported ISA extensions.
+- Supported profiles.
 - With option `--verbose` or `-v`, for each unsupported profile, display the
   list of missing extensions for that profile.
+
+Options `--list-extensions`, `--list-profiles`, and `--profile` can be used to
+list known extensions or profiles, regardless of the current processor.
 
 Limitations:
 
@@ -99,6 +102,6 @@ $ python3 -m venv ~/.venv
 $ source ~/.venv/bin/activate
 (.venv) $ python3 -m pip install pyyaml
 (.venv) $ ./riscv_info.py --cpuinfo cpuinfo.qemu.riscv
-(.venv) $ deactivate 
-$ 
+(.venv) $ deactivate
+$
 ~~~
