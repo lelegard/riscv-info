@@ -317,6 +317,13 @@ class Processor:
         print('%s (%d bits)' % (self.basename, self.bits), file=file)
         for f in self.flags:
             print('  %s: %s' % (f, self.profiles.flag_desc(f)), file=file)
+        if self.profiles.cmd.verbose_mode:
+            missing_flags = [f for f in self.profiles.data['flags'] if f not in self.flags]
+            if len(missing_flags) > 0:
+                print('', file=file)
+                print('Unimplemented flags', file=file)
+                for f in missing_flags:
+                    print('  %s: %s' % (f, self.profiles.flag_desc(f)), file=file)
         print('', file=file)
         print('ISA extensions', file=file)
         print('==============', file=file)
@@ -324,6 +331,15 @@ class Processor:
         print('Found %d extensions' % len(self.extensions), file=file)
         for e in self.extensions:
             print('  %-*s : %s' % (width, e, self.profiles.extension_desc(e)), file=file)
+        if self.profiles.cmd.verbose_mode:
+            missing_exts = [e for e in self.profiles.data['extensions'] if e not in self.extensions]
+            if len(missing_exts) > 0:
+                width = max(len(e) for e in missing_exts)
+                print('', file=file)
+                print('%d unimplemented extensions' % len(missing_exts), file=file)
+                for e in missing_exts:
+                    print('  %-*s : %s' % (width, e, self.profiles.extension_desc(e)), file=file)
+            
         print('', file=file)
         print('ISA profiles', file=file)
         print('============', file=file)
@@ -331,29 +347,32 @@ class Processor:
         width = max(len(e) for e in [''] + pnames)
         for pname in pnames:
             supported = pname in self.profiles.data['profiles']
-            profile = None
-            missing_flags = ''
-            missing_exts = []
             if supported:
                 profile = self.profiles.data['profiles'][pname]
-                supported = self.bits == profile['bits']
-            if supported:
-                for f in profile['flags']['mandatory']:
-                    if f not in self.flags:
-                        missing_flags += f
-                        supported = False
-                for e in profile['extensions']['mandatory']:
-                    if e not in self.extensions:
-                        missing_exts.append(e)
-                        supported = False
+                missing_flags = ''.join([f for f in profile['flags']['mandatory'] if f not in self.flags])
+                missing_opt_flags = ''.join([f for f in profile['flags']['optional'] if f not in self.flags])
+                missing_exts = [e for e in profile['extensions']['mandatory'] if e not in self.extensions]
+                missing_opt_exts = [e for e in profile['extensions']['optional'] if e not in self.extensions]
+                supported = self.bits == profile['bits'] and len(missing_flags) == 0 and len(missing_exts) == 0
+            else:
+                missing_flags = ''
+                missing_opt_flags = ''
+                missing_exts = []
+                missing_opt_exts = []
             print('  %-*s : %s' % (width, pname, 'Yes' if supported else 'No'), file=file)
             if self.profiles.cmd.verbose_mode:
                 if len(missing_flags) > 0:
-                    print('    Missing %d flags: %s' % (len(missing_flags), missing_flags), file=file)
+                    print('  - Missing %d mandatory flags: %s' % (len(missing_flags), missing_flags), file=file)
+                if len(missing_opt_flags) > 0:
+                    print('  - Missing %d optional flags: %s' % (len(missing_opt_flags), missing_opt_flags), file=file)
+                ewidth = max(len(e) for e in [''] + missing_exts + missing_opt_exts)
                 if len(missing_exts) > 0:
-                    print('    Missing %d extensions:' % len(missing_exts), file=file)
-                    ewidth = max(len(e) for e in missing_exts)
+                    print('  - Missing %d mandatory extensions:' % len(missing_exts), file=file)
                     for e in missing_exts:
+                        print('    %-*s : %s' % (ewidth, e, self.profiles.extension_desc(e)), file=file)
+                if len(missing_opt_exts) > 0:
+                    print('  - Missing %d optional extensions:' % len(missing_opt_exts), file=file)
+                    for e in missing_opt_exts:
                         print('    %-*s : %s' % (ewidth, e, self.profiles.extension_desc(e)), file=file)
         print('', file=file)
 

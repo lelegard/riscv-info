@@ -62,84 +62,11 @@ ISA profiles
   RVI20U32 : No
   RVI20U64 : Yes
   RVA20U64 : No
-    Missing 1 extensions:
-    Za128rs : Reservation set size of 128 bytes
   RVA20S64 : No
-    Missing 4 extensions:
-    Za128rs : Reservation set size of 128 bytes
-    Ss1p11  : Supervisor-level architecture v1.11
-    Svbare  : Bare mode virtual-memory translation supported
-    Svade   : Raise exceptions on improper A/D bits
   RVA22U64 : No
-    Missing 2 extensions:
-    Zfhmin : Minimal half-precision FP
-    Zkt    : Data-independent execution latency
   RVA22S64 : No
-    Missing 8 extensions:
-    Zfhmin  : Minimal half-precision FP
-    Zkt     : Data-independent execution latency
-    Ss1p12  : Supervisor-level architecture v1.12
-    Svbare  : Bare mode virtual-memory translation supported
-    Sv39    : Page-based 39-bit virtual-memory system
-    Svade   : Raise exceptions on improper A/D bits
-    Svpbmt  : Page-based memory types
-    Svinval : Fine-grained address-translation cache invalidation
   RVA23U64 : No
-    Missing 2 flags: BV
-    Missing 9 extensions:
-    Zfhmin  : Minimal half-precision FP
-    Zvfhmin : Vector for minimal half-precision FP
-    Zvbb    : Vector basic bit-manipulation
-    Zvkt    : Vector data-independent execution latency
-    Zicond  : Integer conditional operations
-    Zimop   : may-be-operations
-    Zcmop   : Compressed may-be-operations
-    Zcb     : Additional compressed instructions
-    Supm    : Indicates that there is pointer-masking support in user mode
   RVA23S64 : No
-    Missing 2 flags: BV
-    Missing 20 extensions:
-    Zfhmin    : Minimal half-precision FP
-    Zvfhmin   : Vector for minimal half-precision FP
-    Zvbb      : Vector basic bit-manipulation
-    Zvkt      : Vector data-independent execution latency
-    Zicond    : Integer conditional operations
-    Zimop     : may-be-operations
-    Zcmop     : Compressed may-be-operations
-    Zcb       : Additional compressed instructions
-    Supm      : Indicates that there is pointer-masking support in user mode
-    Ss1p13    : Supervisor-level architecture v1.13
-    Svbare    : Bare mode virtual-memory translation supported
-    Sv39      : Page-based 39-bit virtual-memory system
-    Svade     : Raise exceptions on improper A/D bits
-    Svpbmt    : Page-based memory types
-    Svinval   : Fine-grained address-translation cache invalidation
-    Svnapot   : NAPOT translation contiguity
-    Sscofpmf  : Count overflow and mode-based filtering
-    Ssnpm     : Supervisor-level pointer masking for next lower privilege
-    Sha       : Augmented hypervisor
-    Ssstateen : Supervisor-level view of the state-enable
   RVB23U64 : No
-    Missing 1 flags: B
-    Missing 5 extensions:
-    Zkt    : Data-independent execution latency
-    Zicond : Integer conditional operations
-    Zimop  : may-be-operations
-    Zcmop  : Compressed may-be-operations
-    Zcb    : Additional compressed instructions
   RVB23S64 : No
-    Missing 1 flags: B
-    Missing 12 extensions:
-    Zkt      : Data-independent execution latency
-    Zicond   : Integer conditional operations
-    Zimop    : may-be-operations
-    Zcmop    : Compressed may-be-operations
-    Zcb      : Additional compressed instructions
-    Ss1p13   : Supervisor-level architecture v1.13
-    Svnapot  : NAPOT translation contiguity
-    Sv39     : Page-based 39-bit virtual-memory system
-    Svade    : Raise exceptions on improper A/D bits
-    Svpbmt   : Page-based memory types
-    Svinval  : Fine-grained address-translation cache invalidation
-    Sscofpmf : Count overflow and mode-based filtering
 

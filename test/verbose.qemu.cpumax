@@ -12,6 +12,16 @@ RV64IMAFDCVH (64 bits)
   H: Hypervisor
   B: Bit manipulation
 
+Unimplemented flags
+  E: Integer instructions (embedded)
+  J: Dynamically translated languages
+  L: Decimal floating-point
+  N: User-level interrupts
+  P: Packed-SIMD instructions
+  Q: Quad-precision floating-point
+  S: Supervisor mode
+  T: Transactional memory
+
 ISA extensions
 ==============
 Found 118 extensions
@@ -134,16 +144,86 @@ Found 118 extensions
   Zvksh        : ShangMi suite SM3 secure hash
   Zvkt         : Vector data-independent execution latency
 
+36 unimplemented extensions
+  Sdext    : Debug extension
+  Sm1p11   : Machine-level architecture v1.11
+  Sm1p12   : Machine-level architecture v1.12
+  Sm1p13   : Machine-level architecture v1.13
+  Smdbltrp : Address double trap in Machine-level
+  Smrnmi   : Resumable Non-Maskable Interrupts
+  Ss1p11   : Supervisor-level architecture v1.11
+  Ss1p12   : Supervisor-level architecture v1.12
+  Ss1p13   : Supervisor-level architecture v1.13
+  Sscdeleg : Supervisor-level counter delegation
+  Ssqosid  : Quality-of-Service (QoS) identifiers
+  Sv32     : Page-based 32-bit virtual-memory system
+  Sv39     : Page-based 39-bit virtual-memory system
+  Sv57     : Page-based 57-bit virtual-memory system
+  Svade    : Raise exceptions on improper A/D bits
+  Svbare   : Bare mode virtual-memory translation supported
+  Za128rs  : Reservation set size of 128 bytes
+  Zce      : Compressed instructions for embedded microcontrollers
+  Zcf      : Compressed single precision FP loads and stores (RV32 only)
+  Zclsd    : Compressed load/store pair instructions
+  Zcmp     : Compressed function call prologues and epilogues
+  Zcmt     : Compressed static function calls
+  Zdinx    : Double-precision FP in X-registers
+  Zfinx    : Single-precision FP in X-registers
+  Zhinx    : Half-precision FP in X-registers
+  Zhinxmin : Minimal half-precision FP in X-registers
+  Ziccamoc : Main memory supports atomics in Zacas
+  Zilsd    : Load/Store pair instructions
+  Zve      : Embedded vector extension
+  Zvl      : Vector extension
+  Zvl32b   : 32-bit vectors
+  Zvl64b   : 64-bit vectors
+  Zvl128b  : 128-bit vectors
+  Zvl256b  : 256-bit vectors
+  Zvl512b  : 512-bit vectors
+  Zvl1024b : 1024-bit vectors
+
 ISA profiles
 ============
   RVI20U32 : No
   RVI20U64 : Yes
   RVA20U64 : No
+  - Missing 1 mandatory extensions:
+    Za128rs : Reservation set size of 128 bytes
   RVA20S64 : No
+  - Missing 4 mandatory extensions:
+    Za128rs : Reservation set size of 128 bytes
+    Ss1p11  : Supervisor-level architecture v1.11
+    Svbare  : Bare mode virtual-memory translation supported
+    Svade   : Raise exceptions on improper A/D bits
   RVA22U64 : Yes
   RVA22S64 : No
+  - Missing 4 mandatory extensions:
+    Ss1p12 : Supervisor-level architecture v1.12
+    Svbare : Bare mode virtual-memory translation supported
+    Sv39   : Page-based 39-bit virtual-memory system
+    Svade  : Raise exceptions on improper A/D bits
+  - Missing 1 optional extensions:
+    Sv57   : Page-based 57-bit virtual-memory system
   RVA23U64 : Yes
+  - Missing 1 optional extensions:
+    Ziccamoc : Main memory supports atomics in Zacas
   RVA23S64 : No
+  - Missing 4 mandatory extensions:
+    Ss1p13 : Supervisor-level architecture v1.13
+    Svbare : Bare mode virtual-memory translation supported
+    Sv39   : Page-based 39-bit virtual-memory system
+    Svade  : Raise exceptions on improper A/D bits
+  - Missing 1 optional extensions:
+    Sv57   : Page-based 57-bit virtual-memory system
   RVB23U64 : Yes
+  - Missing 1 optional extensions:
+    Ziccamoc : Main memory supports atomics in Zacas
   RVB23S64 : No
+  - Missing 3 mandatory extensions:
+    Ss1p13   : Supervisor-level architecture v1.13
+    Sv39     : Page-based 39-bit virtual-memory system
+    Svade    : Raise exceptions on improper A/D bits
+  - Missing 2 optional extensions:
+    Ziccamoc : Main memory supports atomics in Zacas
+    Sv57     : Page-based 57-bit virtual-memory system
 
