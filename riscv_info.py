@@ -7,125 +7,10 @@
 #
 #-----------------------------------------------------------------------------
 
-import os, sys, re, glob, yaml
+import os, sys, re, glob, yaml, argparse
 
-USAGE = """
-Syntax: %s [options]
-
-Options:
-
-  -c filename
-  --cpuinfo filename
-     Use the specified file for 'cpuinfo' pseudo file.
-     Useful to test alternative configurations.
-     Default: /proc/cpuinfo
-
-  -d filename
-  --definition filename
-     Use the specified file instead of the default YAML definition file for
-     RISC-V configurations which comes with that script.
-
-  -e
-  --list-extensions
-     List known extensions.
-
-  -h
-  --help
-     Display this help text.
-
-  -i pattern
-  --isa
-     Use the specified file pattern, with optional wildcards, for the
-     'riscv,isa-extensions' pseudo files.
-     Useful to test alternative configurations.
-     Default: /proc/device-tree/cpus/*/riscv,isa-extensions
-
-  -l
-  --list-profiles
-     List known profiles.
-
-  -p name
-  --profile name
-     Display the characteristics of the specified profile.
-
-  -v
-  --verbose
-     Verbose display.
-"""
-
-DEFAULT_DEFINITION = os.path.splitext(__file__)[0] + '.yml'
 DEFAULT_CPUINFO = '/proc/cpuinfo'
 DEFAULT_ISAGLOB = '/proc/device-tree/cpus/*/riscv,isa-extensions'
-
-#-----------------------------------------------------------------------------
-# Generic command line management.
-#-----------------------------------------------------------------------------
-
-class CommandLine:
-
-    # Constructor.
-    def __init__(self, argv=sys.argv, usage=''):
-        self.argv = argv
-        self.usage_text = usage
-        self.script = os.path.basename(argv[0])
-        self.scriptdir = os.path.dirname(os.path.abspath(argv[0]))
-        self.verbose_mode = self.has_opt(['-v', '--verbose'])
-        if self.has_opt(['-h', '--help']):
-            print(self.usage_text % self.script)
-            exit(0)
-
-    # Get the value of an option in the command line.
-    # Remove the option from the command line.
-    # Use a name or list of names.
-    def get_opt(self, names, default=None):
-        if type(names) is str:
-            names = [names]
-        value = default
-        i = 0
-        while i < len(self.argv):
-            if self.argv[i] in names:
-                self.argv.pop(i)
-                if i < len(self.argv):
-                    value = self.argv[i]
-                    self.argv.pop(i)
-            else:
-                i += 1
-        return value
-
-    # Check if an option without value is in the command line.
-    # Remove the option from the command line.
-    # Use a name or list of names.
-    def has_opt(self, names):
-        if type(names) is str:
-            names = [names]
-        value = False
-        i = 0
-        while i < len(self.argv):
-            if self.argv[i] in names:
-                self.argv.pop(i)
-                value = True
-            else:
-                i += 1
-        return value
-
-    # Check that all command line options were recognized.
-    def check_opt_final(self):
-        if len(self.argv) > 1:
-            self.fatal('extraneous options: %s' % ' '.join(self.argv[1:]))
-
-    # Message reporting.
-    def verbose(self, message):
-        if self.verbose_mode:
-            print(message, file=sys.stderr)
-    def info(self, message):
-        print(message, file=sys.stderr)
-    def warning(self, message):
-        print('%s: warning: %s' % (self.script, message), file=sys.stderr)
-    def error(self, message):
-        print('%s: error: %s' % (self.script, message), file=sys.stderr)
-    def fatal(self, message):
-        self.error(message)
-        exit(1)
 
 #-----------------------------------------------------------------------------
 # Force a default value to a dictionary key, with several levels of keys.
@@ -156,18 +41,17 @@ def set_default(dictionary, keys, default):
 class Profiles:
 
     # Constructor, load configuration from a YAML file.
-    def __init__(self, cmd, definition_file):
-        self.cmd = cmd
+    def __init__(self, args):
+        self.args = args
         # Load the YAML configuration file.
-        with open(definition_file, 'r') as input:
+        with open(self.args.definition, 'r') as input:
             self.data = yaml.safe_load(input)
         # Enforce default values.
         set_default(self.data, 'flags', dict())
         set_default(self.data, 'shorthands', dict())
         set_default(self.data, 'extensions', dict())
         set_default(self.data, 'profiles', dict())
-        for name in self.data['profiles'].keys():
-            set_default(self.data, ['profiles', name], dict())
+        for name in self.data['profiles']:
             set_default(self.data, ['profiles', name, 'description'], '')
             set_default(self.data, ['profiles', name, 'bits'], 0)
             set_default(self.data, ['profiles', name, 'endian'], 'any')
@@ -220,8 +104,7 @@ class Profiles:
     def print_profile(self, name, file=sys.stdout):
         name = name.upper()
         if name not in self.data['profiles']:
-            cmd.error('unknown profile %s, use one of %s' % (name, ', '.join(self.data['profiles'].keys())))
-            return
+            args.parser.error('unknown profile %s, use one of %s' % (name, ', '.join(self.data['profiles'].keys())))
         prof = self.data['profiles'][name]
         print('', file=file)
         print('%s: %s' % (name, prof['description']), file=file)
@@ -248,15 +131,15 @@ class Profiles:
 class Processor:
 
     # Constructor, load from a cpuinfo file.
-    def __init__(self, profiles, cpuinfo_file=DEFAULT_CPUINFO, isa_pattern=DEFAULT_ISAGLOB):
+    def __init__(self, profiles):
         self.basename = ''     # Example: RV64GCVH
         self.bits = 0          # Example: 32, 64, 128
         self.flags = ''        # Example: IMAFDCVH
         self.extensions = []   # List of extension names
         self.profiles = profiles
-        self.cmd = profiles.cmd
+        self.args = profiles.args
         # Parse /proc/cpuinfo
-        with open(cpuinfo_file, 'r') as input:
+        with open(args.cpuinfo, 'r') as input:
             for line in input:
                 prefix, _, value = line.partition(':')
                 if prefix.strip().lower() in ['isa', 'hart isa', 'mmu']:
@@ -275,9 +158,9 @@ class Processor:
                                 self.bits = int(match.group(1))
                                 self.add_flags(match.group(2))
                             elif self.basename != c:
-                                cmd.error('multiple base ISA: %s, %s' % (self.basename, c))
+                                print('error: multiple base ISA: %s, %s' % (self.basename, c), file=sys.stderr)
         # Parse /proc/device-tree/cpus/*/riscv,isa-extensions
-        for isa_file in glob.glob(isa_pattern):
+        for isa_file in glob.glob(args.isa):
             with open(isa_file, 'r') as input:
                 for c in input.read().split('\0'):
                     if len(c) == 1:
@@ -317,7 +200,7 @@ class Processor:
         print('%s (%d bits)' % (self.basename, self.bits), file=file)
         for f in self.flags:
             print('  %s: %s' % (f, self.profiles.flag_desc(f)), file=file)
-        if self.profiles.cmd.verbose_mode:
+        if self.args.verbose:
             missing_flags = [f for f in self.profiles.data['flags'] if f not in self.flags]
             if len(missing_flags) > 0:
                 print('', file=file)
@@ -331,7 +214,7 @@ class Processor:
         print('Found %d extensions' % len(self.extensions), file=file)
         for e in self.extensions:
             print('  %-*s : %s' % (width, e, self.profiles.extension_desc(e)), file=file)
-        if self.profiles.cmd.verbose_mode:
+        if self.profiles.args.verbose:
             missing_exts = [e for e in self.profiles.data['extensions'] if e not in self.extensions]
             if len(missing_exts) > 0:
                 width = max(len(e) for e in missing_exts)
@@ -360,7 +243,7 @@ class Processor:
                 missing_exts = []
                 missing_opt_exts = []
             print('  %-*s : %s' % (width, pname, 'Yes' if supported else 'No'), file=file)
-            if self.profiles.cmd.verbose_mode:
+            if self.args.verbose:
                 if len(missing_flags) > 0:
                     print('  - Missing %d mandatory flags: %s' % (len(missing_flags), missing_flags), file=file)
                 if len(missing_opt_flags) > 0:
@@ -380,23 +263,38 @@ class Processor:
 if __name__ == '__main__':
 
     # Decode command line options.
-    cmd = CommandLine(sys.argv, USAGE)
-    definition_file = cmd.get_opt(['-d', '--definition'], DEFAULT_DEFINITION)
-    cpuinfo_file = cmd.get_opt(['-c', '--cpuinfo'], DEFAULT_CPUINFO)
-    isa_pattern = cmd.get_opt(['-i', '--isa'], DEFAULT_ISAGLOB)
-    list_profiles = cmd.has_opt(['-l', '--list-profiles'])
-    list_extensions = cmd.has_opt(['-e', '--list-extensions'])
-    profile_name = cmd.get_opt(['-p', '--profile'], None)
-    cmd.check_opt_final()
+    parser = argparse.ArgumentParser(description='Get RISC-V ISA information')
+    parser.add_argument('-c', '--cpuinfo', default=DEFAULT_CPUINFO, help=
+                        'Use the specified file for "cpuinfo" pseudo file. ' +
+                        'Useful to test alternative configurations. ' +
+                        'Default: /proc/cpuinfo')
+    parser.add_argument('-i', '--isa', default=DEFAULT_ISAGLOB, help=
+                        'Use the specified file pattern, with optional wildcards, ' +
+                        'for the "riscv,isa-extensions" pseudo files. ' +
+                        'Useful to test alternative configurations. ' +
+                        'Default: /proc/device-tree/cpus/*/riscv,isa-extensions')
+    parser.add_argument('-d', '--definition', default=os.path.splitext(__file__)[0] + '.yml', help=
+                        'Use the specified file instead of the default YAML definition ' +
+                        'file for RISC-V configurations which comes with that script.')
+    parser.add_argument('-e', '--list-extensions', action='store_true', help=
+                        'List known extensions.')
+    parser.add_argument('-l', '--list-profiles', action='store_true', help=
+                        'List known profiles.')
+    parser.add_argument('-p', '--profile', help=
+                        'Display the characteristics of the specified profile.')
+    parser.add_argument('-v', '--verbose', action='store_true', help=
+                        'Verbose display.')
+    args = parser.parse_args()
+    args.parser = parser
 
     # Execute command.
-    profiles = Profiles(cmd, definition_file)
-    if list_profiles:
+    profiles = Profiles(args)
+    if args.list_profiles:
         profiles.list_profiles()
-    elif list_extensions:
+    elif args.list_extensions:
         profiles.list_extensions()
-    elif profile_name is not None:
-        profiles.print_profile(profile_name)
+    elif args.profile is not None:
+        profiles.print_profile(args.profile)
     else:
-        proc = Processor(profiles, cpuinfo_file, isa_pattern)
+        proc = Processor(profiles)
         proc.print_processor()

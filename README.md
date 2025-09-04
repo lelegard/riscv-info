@@ -19,50 +19,37 @@ Limitations:
 - The list of extensions in the YAML file is probably incomplete.
   Feel free to submit a pull request with missing names.
 
-## Usage
+## Options
 
 ~~~
-Syntax: riscv_info.py [options]
+-h, --help
+    Show this help message and exit.
 
-Options:
+-v, --verbose
+    Verbose display.
 
-  -c filename
-  --cpuinfo filename
-     Use the specified file for 'cpuinfo' pseudo file.
-     Useful to test alternative configurations.
-     Default: /proc/cpuinfo
+-c CPUINFO, --cpuinfo CPUINFO
+    Use the specified file for "cpuinfo" pseudo file.
+    Useful to test alternative configurations.
+    Default: /proc/cpuinfo
 
-  -d filename
-  --definition filename
-     Use the specified file instead of the default YAML definition file for
-     RISC-V configurations which comes with that script.
+-i ISA, --isa ISA
+    Use the specified file pattern, with optional wildcards, for the
+    "riscv,isa-extensions" pseudo files. Useful to test alternative configurations.
+    Default: /proc/device-tree/cpus/*/riscv,isa-extensions
 
-  -e
-  --list-extensions
-     List known extensions.
+-d DEFINITION, --definition DEFINITION
+    Use the specified file instead of the default YAML definition file for
+    RISC-V configurations which comes with that script.
 
-  -h
-  --help
-     Display this help text.
+-e, --list-extensions
+    List known extensions.
 
-  -i pattern
-  --isa
-     Use the specified file pattern, with optional wildcards, for the
-     'riscv,isa-extensions' pseudo files.
-     Useful to test alternative configurations.
-     Default: /proc/device-tree/cpus/*/riscv,isa-extensions
+-l, --list-profiles
+    List known profiles.
 
-  -l
-  --list-profiles
-     List known profiles.
-
-  -p name
-  --profile name
-     Display the characteristics of the specified profile.
-
-  -v
-  --verbose
-     Verbose display.
+-p PROFILE, --profile PROFILE
+    Display the characteristics of the specified profile.
 ~~~
 
 ## Testing on other architectures
