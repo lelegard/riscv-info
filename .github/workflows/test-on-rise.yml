@@ -1,0 +1,19 @@
+name: Test on RISE Scaleway-provided runner
+on:
+  workflow_dispatch: # manual trigger
+jobs:
+  installation:
+    runs-on: ubuntu-24.04-riscv
+    steps:
+    - name: Get repo
+      uses: actions/checkout@master
+    - name: Run riscv_info
+      run: |
+        uname -a
+        ./riscv_info.py --verbose >riscv_info.txt
+        cat riscv_info.txt
+    - name: Publish results
+      uses: actions/upload-artifact@v4
+        with:
+          name: riscv_info
+          path: riscv_info.txt
