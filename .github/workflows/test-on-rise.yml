@@ -14,6 +14,6 @@ jobs:
         cat riscv_info.txt
     - name: Publish results
       uses: actions/upload-artifact@v4
-        with:
-          name: riscv_info
-          path: riscv_info.txt
+      with:
+        name: riscv_info
+        path: riscv_info.txt
