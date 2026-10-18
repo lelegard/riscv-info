@@ -7,13 +7,22 @@ jobs:
     steps:
     - name: Get repo
       uses: actions/checkout@master
+    - name: Install prerequisites
+      run: sudo apt install -y python3-yaml zip
     - name: Run riscv_info
+      run: ./riscv_info.py --verbose | tee verbose.scaleway.emrv1
+    - name: Collect system information
       run: |
-        uname -a
-        ./riscv_info.py --verbose >riscv_info.txt
-        cat riscv_info.txt
+        echo "=== uname -a"
+        uname -a | tee uname.scaleway.emrv1
+        echo "=== cpuinfo"
+        cat /proc/cpuinfo | tee cpuinfo.scaleway.emrv1
+        echo "=== isa-extensions"
+        ls -l /proc/device-tree/cpus/*/riscv,isa-extensions
+        cat $(ls /proc/device-tree/cpus/*/riscv,isa-extensions | head -1) | tee isa-extensions.scaleway.emrv1
+        zip info.zip *.scaleway.emrv1
     - name: Publish results
       uses: actions/upload-artifact@v4
       with:
-        name: riscv_info
-        path: riscv_info.txt
+        name: info
+        path: info.zip
