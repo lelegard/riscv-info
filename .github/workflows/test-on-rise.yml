@@ -18,8 +18,10 @@ jobs:
         echo "=== cpuinfo"
         cat /proc/cpuinfo | tee cpuinfo.scaleway.emrv1
         echo "=== isa-extensions"
-        ls -l /proc/device-tree/cpus/*/riscv,isa-extensions
-        cat $(ls /proc/device-tree/cpus/*/riscv,isa-extensions | head -1) | tee isa-extensions.scaleway.emrv1
+        find /proc/device-tree -iname '*isa-extensions' | tee isa-extensions-list.scaleway.emrv1
+        if [[ -s isa-extensions-list.scaleway.emrv1 ]]; then
+            cat $(head -1 isa-extensions-list.scaleway.emrv1) | tee isa-extensions.scaleway.emrv1
+        fi
         zip info.zip *.scaleway.emrv1
     - name: Publish results
       uses: actions/upload-artifact@v4
