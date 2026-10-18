@@ -2,7 +2,7 @@ name: Test on RISE Scaleway-provided runner
 on:
   workflow_dispatch: # manual trigger
 jobs:
-  installation:
+  test:
     runs-on: ubuntu-24.04-riscv
     steps:
     - name: Get repo
